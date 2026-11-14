@@ -159,7 +159,7 @@ if (!MOCK && !CONFIGURED) {
     async events() { const { data, error } = await sb.from("security_events").select("at,kind,email,detail").order("at", { ascending: false }).limit(50); return error ? null : data; },
     async dumpTable(t) { const out = []; for (let i = 0; ; i += 1000) { const { data, error } = await sb.from(t).select("*").range(i, i + 999); if (error) return { error: error.message }; out.push(...data); if (data.length < 1000) return out; } },
     async email() { return (await sb.auth.getUser()).data.user?.email || ""; },
-    async profile() { const u = (await sb.auth.getUser()).data.user; return ok(await sb.from("profiles").select("id,handle,nome,role,ativo").eq("id", u.id).single()); },
+    async profile() { const u = (await sb.auth.getUser()).data.user; return ok(await sb.from("profiles").select("id,handle,nome,role,ativo,mfa_exempt").eq("id", u.id).single()); },
     async products() {
       const admin = me && me.role === "admin";
       const base = "sku,marca,produto,tamanho,preco_venda,estoque,estoque_minimo,ativo";
@@ -1208,10 +1208,15 @@ async function boot() {
   }
   const s = await api.session();
   if (!s) { viewLogin(); if (window.BGDSwitch) BGDSwitch.prefill(); return; }
-  const a = await api.aal();
-  const verified = ((await api.factors()) || []).filter(x => x.status === "verified");
-  if (verified.length && a.currentLevel !== "aal2") return viewMfaChallenge();
-  if (!verified.length) return viewMfaEnroll();
+  let preview = null;
+  try { preview = await api.profile(); } catch {}
+  const exempt = !!(preview && preview.mfa_exempt && preview.ativo !== false);
+  if (!exempt) {
+    const a = await api.aal();
+    const verified = ((await api.factors()) || []).filter(x => x.status === "verified");
+    if (verified.length && a.currentLevel !== "aal2") return viewMfaChallenge();
+    if (!verified.length) return viewMfaEnroll();
+  }
   if (needPassword) return viewCriarSenha();
   const st = await api.status().catch(() => null);   // null = security.sql ainda não rodado
   if (st && st.locked && !st.is_owner) return viewBloqueado();
