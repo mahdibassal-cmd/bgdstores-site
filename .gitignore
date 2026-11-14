@@ -1,0 +1,7 @@
+*.sql
+*.env
+*.xlsx
+*.csv
+.DS_Store
+.access-code
+*.b64

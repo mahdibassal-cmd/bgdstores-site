@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+<script src="/frame-bust.js?v=20261114k"></script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<script src="/theme-mode.js?v=20261103d"></script>
+<title>Sistema - BAGDA STORES</title>
+<link rel="stylesheet" href="loja.css?v=20261114c">
+<link rel="stylesheet" href="ponto.css?v=20261111d">
+</head>
+<body>
+<header class="top">
+  <div class="brand">BAGDA <span>STORES</span></div>
+  <nav id="nav" hidden aria-label="Menu principal">
+    <div class="navg" data-g="notas" role="group" aria-labelledby="ng-notas">
+      <span class="ngh" id="ng-notas">Notas</span>
+      <div class="ngb">
+        <button type="button" data-v="nota" data-p="vendas">Nova nota</button>
+        <button type="button" data-v="notas" data-p="vendas">Notas</button>
+        <button type="button" data-v="vencimentos" data-p="vendas" data-role="vendedor">Vencimentos</button>
+        <button type="button" data-v="lancar" data-p="financas">Notas a lançar</button>
+        <button type="button" data-v="clientes" data-p="financas">Clientes</button>
+      </div>
+    </div>
+    <div class="navg" data-g="financas" role="group" aria-labelledby="ng-fin">
+      <span class="ngh" id="ng-fin">Financeiro</span>
+      <div class="ngb">
+        <button type="button" data-v="caixa" data-p="caixa">Caixa</button>
+        <button type="button" data-v="caixageral" data-p="financas">Caixa Geral</button>
+        <button type="button" data-v="cxesp" data-p="admin">Caixa Especial</button>
+        <button type="button" data-v="receber" data-p="financas">Contas a receber</button>
+        <button type="button" data-v="pagar" data-p="financas">Contas a pagar</button>
+        <button type="button" data-v="cpend" data-p="admin">Compras pendentes</button>
+        <button type="button" data-v="fornecedores" data-p="financas">Fornecedores</button>
+        <button type="button" data-v="resumo" data-p="financas">Resumo do dia</button>
+        <button type="button" data-v="relatorio" data-p="admin">Relatório</button>
+        <button type="button" data-v="hxdia" data-p="admin">HX por dia</button>
+      </div>
+    </div>
+    <div class="navg" data-g="compras" role="group" aria-labelledby="ng-comp">
+      <span class="ngh" id="ng-comp">Compras e estoque</span>
+      <div class="ngb">
+        <button type="button" data-v="compras" data-p="admin">Compras</button>
+        <button type="button" data-v="imei" data-p="financas|estoque">Compras &amp; IMEI</button>
+        <button type="button" data-v="estoque" data-p="vendas|estoque">Estoque</button>
+        <button type="button" data-v="produtos" data-p="admin">Produtos</button>
+        <button type="button" data-v="depesp" data-p="admin|estoque">Depósito Especial</button>
+      </div>
+    </div>
+    <div class="navg" data-g="sistema" role="group" aria-labelledby="ng-sis">
+      <span class="ngh" id="ng-sis">Sistema</span>
+      <div class="ngb">
+        <button type="button" data-v="ponto">Ponto</button>
+        <button type="button" data-v="usuarios" data-p="admin">Usuários</button>
+        <button type="button" data-v="seguranca">Segurança</button>
+        <button type="button" id="sair">Sair</button>
+      </div>
+    </div>
+  </nav>
+  <div id="who"></div>
+</header>
+<div id="mockbar" hidden>MODO DEMONSTRAÇÃO — dados fictícios, nada é salvo</div>
+<main id="app"></main>
+<div id="toast"></div>
+<script src="/vendor/supabase-js-2.45.4.min.js" integrity="sha384-GFr3yTh5lJznCbZfpTtXnwboFsxqtTQoeTZCRHhE0579KrRmlCzen5AA8ohaB5ug" crossorigin="anonymous"></script>
+<script src="/switcher.js?v=20261103c"></script>
+<script src="/usuarios.js?v=20261103r"></script>
+<script src="config.js?v=20261103r"></script>
+<script src="estoque-categorias.js?v=20261114b"></script>
+<script src="custo-valor.js?v=20261109e"></script>
+<script src="venda-origem.js?v=20261109e"></script>
+<script src="prazo-vencimento.js?v=20261114a"></script>
+<script src="ponto.js?v=20261111d"></script>
+<script src="cliente-nome.js?v=20261113a"></script>
+<script src="origem-preco.js?v=20261113g"></script>
+<script src="pix-locais.js?v=20261114a"></script>
+<script src="app.js?v=20261114h"></script>
+</body>
+</html>

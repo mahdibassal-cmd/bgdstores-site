@@ -1,0 +1,24 @@
+.beauty .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px}
+.bcard{display:flex;flex-direction:column;border:1px solid var(--line2,rgba(212,175,95,.25));border-radius:18px;overflow:hidden;background:rgba(255,255,255,.03)}
+.bcard.chegou{border:2px solid #d4af5f;box-shadow:0 0 0 1px rgba(212,175,95,.45),0 10px 28px rgba(0,0,0,.28)}
+.bcard.chegou .bimg{position:relative}
+.bcard.chegou .bimg:after{content:"CHEGOU!";position:absolute;top:12px;left:12px;padding:5px 10px;border-radius:99px;background:#d4af5f;color:#1a1206;font:700 11px/1 system-ui,sans-serif;letter-spacing:.14em}
+.bimg{aspect-ratio:3/4;overflow:hidden;background:#140e06}
+.bimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.bcard:hover .bimg img{transform:scale(1.04)}
+.bbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.bmeta{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.bbody h3{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.15;margin:0}
+.bbody p{color:var(--muted);font-size:14px;margin:0;flex:1}
+.bfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.bask{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--gold2)}
+.bmore{margin-top:22px;text-align:center}.bmore a{color:var(--gold);text-decoration:none;font-weight:600;letter-spacing:.04em}
+.btools{display:flex;flex-direction:column;gap:14px;margin:0 0 26px}
+.bchips{display:flex;flex-wrap:wrap;gap:8px}
+.bchips .chip{cursor:pointer;border:1px solid var(--line2,rgba(212,175,95,.35));background:transparent;color:inherit;padding:8px 16px;border-radius:99px;font:600 13px/1 inherit;letter-spacing:.04em}
+.bchips .chip.on{background:var(--gold,#d4af5f);color:#0b0907;border-color:transparent}
+.bsearch{width:100%;max-width:420px;padding:12px 16px;border-radius:99px;border:1px solid var(--line2,rgba(212,175,95,.35));background:rgba(255,255,255,.04);color:inherit;font-size:15px}
+.bcount{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.bempty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+
+.bfoot{flex-wrap:wrap}.bfoot .btn.mp{flex:1 1 auto;text-align:center}.bfoot .paynote{margin-top:0}
