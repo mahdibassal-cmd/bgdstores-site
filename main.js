@@ -27,7 +27,7 @@
 
   document.querySelectorAll('.js-wa').forEach(function (a) { a.href = wa(C.storesMessage); });
   var gtaWa = $('gta-wa');
-  if (gtaWa) gtaWa.href = wa('Olá! Quero reservar o GTA VI (PS5) na pré-venda por R$ 319,99.');
+  if (gtaWa) gtaWa.href = wa('Olá! Quero reservar o GTA VI (PS5) no 2º lote da pré-venda por R$ 329,99.');
   (function gtaCountdown() {
     var TARGET = new Date('2026-11-16T00:00:00-03:00').getTime();
     var root = $('gta-count'), digits = $('gta-digits'), open = $('gta-open'), label = $('gta-count-label');
