@@ -189,9 +189,10 @@ if (!MOCK && !CONFIGURED) {
     async repSeller(d) { return ok(await sb.from("v_report_seller").select("*").eq("data", d)); },
     async repPay(d) { return ok(await sb.from("v_report_payment").select("*").eq("data", d)); },
     async repProfit(d) { return ok(await sb.from("v_report_profit").select("*").eq("data", d)); },
-    async criarNota(items, pagamentos, cliente, clienteId, local, obs, frete, caxinha, prazoDias) { const a = { p_items: items, p_pagamentos: pagamentos, p_cliente: cliente || null, p_cliente_id: clienteId || null, p_local: local || null, p_obs: obs || null }, f = Math.round((+frete || 0) * 100) / 100, c = Math.round((+caxinha || 0) * 100) / 100;
+    async criarNota(items, pagamentos, cliente, clienteId, local, obs, frete, caxinha, prazoDias, limiteOverride) { const a = { p_items: items, p_pagamentos: pagamentos, p_cliente: cliente || null, p_cliente_id: clienteId || null, p_local: local || null, p_obs: obs || null }, f = Math.round((+frete || 0) * 100) / 100, c = Math.round((+caxinha || 0) * 100) / 100;
       const dias = prazoDias == null || prazoDias === "" ? null : +prazoDias;
       if (dias != null) a.p_prazo_dias = dias;
+      if (limiteOverride) a.p_limite_override = true;
       const rpcLocal = async args => { const r = await sb.rpc("criar_nota_local", args); const em = (r.error && ((r.error.code || "") + " " + (r.error.message || ""))) || "";
         if (r.error && a.p_local && !["MAQUINA", "HX", "DINHEIRO", "CAIXA GERAL", "CAIXA ESPECIAL", "CAIXA S2", "PRESTIGE ROSA", "PRESTIGE AURA", "BITLOG CONTAINER"].includes(a.p_local) && /Escolha o Local do pagamento|notas_local_pag|23514/.test(em)) throw new Error("Este local de PIX ainda depende da atualização do banco (supabase-loja/migration-pix-locais-caixas.sql). Nada foi salvo.");
         if (r.error && a.p_local === "CAIXA ESPECIAL" && /Escolha o Local do pagamento|notas_local_pag|23514/.test(em)) throw new Error("Caixa Especial na nota ainda depende da atualização do banco (supabase-loja/migration-nota-caixa-especial.sql). Nada foi salvo.");
@@ -235,6 +236,8 @@ if (!MOCK && !CONFIGURED) {
       return ok(await sb.rpc("criar_cliente", { p_nome: c.nome, p_telefone: c.telefone || null, p_doc: c.doc || null, p_email: c.email || null, p_endereco: c.endereco || null, p_obs: c.obs || null })); }
       catch (e) { limpo(e); } },
     async clienteExtrato(id) { const r = await sb.rpc("cliente_extrato", { p_cliente: id }); if (r.error && /PGRST202|42883|cliente_extrato/.test((r.error.code || "") + " " + (r.error.message || ""))) throw new Error("Extrato do cliente depende de atualização do banco — avise o admin (supabase-loja/migration-cliente-extrato.sql)."); return ok(r); },
+    async limitePrazo(id) { const r = await sb.rpc("cliente_limite_prazo", { p_cliente: id }); const em = (r.error && ((r.error.code || "") + " " + (r.error.message || ""))) || "";
+      if (r.error && /PGRST202|42883|cliente_limite_prazo|schema cache|does not exist/i.test(em)) throw new Error("Limite Paga Depois ainda depende da atualização do banco (supabase-loja/migration-prazo-limite-2026-11-16.sql)."); return ok(r); },
     async clientes() { const L = ok(await sb.from("v_clientes_saldo").select("*").order("nome")); let extra = await sb.from("clientes").select("id,atendimento,limite_prazo").limit(5000);
       if (extra.error) extra = await sb.from("clientes").select("id,atendimento").limit(5000);
       if (!extra.error && extra.data) { const m = Object.fromEntries(extra.data.map(x => [x.id, x])); L.forEach(c => { const e = m[c.id] || {}; if (c.atendimento == null) c.atendimento = e.atendimento ?? null; if (c.limite_prazo == null && e.limite_prazo != null) c.limite_prazo = e.limite_prazo; }); } return L; },
@@ -482,7 +485,7 @@ if (!MOCK && !CONFIGURED) {
     const dias = temPrazo && prazoDias != null && prazoDias !== "" ? +prazoDias : null;
     if (temPrazo && prazoDias != null && prazoDias !== "" && (!(dias >= 1 && dias <= 30))) throw new Error("Informe o prazo (1 a 30 dias) para Paga Depois");
     const venc = dias ? (globalThis.BAGDA_PRAZO ? BAGDA_PRAZO.addDays(dataSp, dias) : dataSp) : null;
-    N.push({ frete, caxinha_natal: caxinha, local_pagamento: local || null, obs_pagamento: obs || null, cliente_id: clienteId || null, nota_id: nid, data: dataSp, created_at: ts, cliente: cliente || null, status: "ativa", total: tot, handle: user.handle, nome: user.nome, pagamento: pags.map(x => x.metodo).join("+"), prazo_dias: dias, vencimento: venc });
+    N.push({ frete, caxinha_natal: caxinha, local_pagamento: local || null, obs_pagamento: obs || null, cliente_id: clienteId || null, nota_id: nid, data: dataSp, created_at: ts, cliente: cliente || null, status: "ativa", total: tot, handle: user.handle, nome: user.nome, pagamento: pags.map(x => x.metodo).join("+"), prazo_dias: dias, vencimento: venc, sem_vencimento: !!(temPrazo && !venc), limite_override: false });
     for (const g of pags) PG.push({ nota_id: nid, metodo: g.metodo, valor: Number(g.valor) }); /* pendente: o financeiro lança no caixa */
     return nid; };
   const devolverItem = i => { if (i.origem === "especial") { let d = DE.find(x => x.sku === i.sku); if (!d) DE.push(d = { sku: i.sku, qtd: 0, custo: i.custo || 0 }); d.qtd += i.qtd; } else { const p = P.find(x => x.sku === i.sku); if (p) p.estoque += i.qtd; } };
@@ -494,9 +497,9 @@ if (!MOCK && !CONFIGURED) {
     mkNota([{ sku: "ANK-001", qtd: 1, preco_vendido: 199 }], [{ metodo: "dinheiro", valor: 199 }], null, kaio, H(1));
     CL.push({ id: 1, nome: "Maria Souza", doc: "52998224725", telefone: "(11) 99999-0000", email: "maria@exemplo.com", endereco: "Rua das Flores, 10", obs: "", ativo: true }, { id: 2, nome: "João Lima", doc: null, telefone: "(11) 98888-1111", email: "", endereco: "", obs: "", ativo: true });
     mkNota([{ sku: "XIA-002", qtd: 1, preco_vendido: 1199 }], [{ metodo: "prazo", valor: 899 }, { metodo: "pix", valor: 300 }], null, kaio, H(26), 1);
-    N.push({ frete: 80, caxinha_natal: 0, local_pagamento: null, obs_pagamento: "DÍVIDA ANTERIOR", cliente_id: 1, nota_id: 9101, data: "2026-01-02", created_at: H(400), cliente: "Maria Souza", status: "ativa", total: 80, handle: "@mike", nome: "Mike", pagamento: "prazo" });
+    N.push({ frete: 80, caxinha_natal: 0, local_pagamento: null, obs_pagamento: "DÍVIDA ANTERIOR", cliente_id: 1, nota_id: 9101, data: "2026-01-02", created_at: H(400), cliente: "Maria Souza", status: "ativa", total: 80, handle: "@mike", nome: "Mike", pagamento: "prazo", vencimento: null, sem_vencimento: true });
     PG.push({ nota_id: 9101, metodo: "prazo", valor: 80 });
-    N.push({ frete: 0, caxinha_natal: 0, local_pagamento: null, obs_pagamento: null, cliente_id: null, nota_id: 9102, data: "2026-01-03", created_at: H(390), cliente: "Maria Souza", status: "ativa", total: 50, handle: "@mike", nome: "Mike", pagamento: "prazo" });
+    N.push({ frete: 0, caxinha_natal: 0, local_pagamento: null, obs_pagamento: null, cliente_id: null, nota_id: 9102, data: "2026-01-03", created_at: H(390), cliente: "Maria Souza", status: "ativa", total: 50, handle: "@mike", nome: "Mike", pagamento: "prazo", vencimento: null, sem_vencimento: true });
     PG.push({ nota_id: 9102, metodo: "prazo", valor: 50 });
     CL.push({ id: 3, nome: "Eduardo Corajoso dos Santos Comércio de Eletrônicos e Acessórios", doc: null, telefone: "(11) 97777-2222", email: "", endereco: "", obs: "", ativo: true });
     mkNota([{ sku: "BAS-002", qtd: 1, preco_vendido: 25155 }], [{ metodo: "pix", valor: 25155 }], null, bia || kaio, H(0.5)); /* como a 000021: PIX por engano, sem cliente */
@@ -508,7 +511,7 @@ if (!MOCK && !CONFIGURED) {
     const dAdd = (n) => PZ ? PZ.addDays(hj, n) : hj;
     const seedPrazo = (cli, nome, valor, venc, data, alloc, dias) => {
       const nid = id++;
-      N.push({ frete: 0, caxinha_natal: 0, local_pagamento: null, obs_pagamento: null, cliente_id: cli, nota_id: nid, data: data || venc || hj, created_at: (data || hj) + "T12:00:00-03:00", cliente: nome, status: "ativa", total: valor, handle: "@kaio", nome: "Kaio", pagamento: "prazo", prazo_dias: dias == null ? null : dias, vencimento: venc || null });
+      N.push({ frete: 0, caxinha_natal: 0, local_pagamento: null, obs_pagamento: null, cliente_id: cli, nota_id: nid, data: data || venc || hj, created_at: (data || hj) + "T12:00:00-03:00", cliente: nome, status: "ativa", total: valor, handle: "@kaio", nome: "Kaio", pagamento: "prazo", prazo_dias: dias == null ? null : dias, vencimento: venc || null, sem_vencimento: !venc });
       const pr = P.find(x => x.sku === "JBL-001") || P[0];
       if (pr) IT.push({ sale_id: id++, nota_id: nid, sku: pr.sku, marca: pr.marca, produto: pr.produto, tamanho: pr.tamanho, qtd: 1, preco_vendido: valor, total: valor, origem: "principal" });
       PG.push({ nota_id: nid, metodo: "prazo", valor });
@@ -659,6 +662,7 @@ if (!MOCK && !CONFIGURED) {
     async clientePorNome(nome) { const CN = globalThis.BAGDA_CLIENTE_NOME; return CN ? CN.findNome(CL, nome) : null; },
     async criarCliente(c) { if (role === "financeiro" && false) return; if (!c.nome || c.nome.trim().length < 2) throw new Error("Informe o nome do cliente"); const d = dig(c.doc) || null; if (d && !docOk(d)) throw new Error("CPF/CNPJ inválido"); const ex = d && CL.find(x => x.doc === d); if (ex) return ex.id;
       const dupN = globalThis.BAGDA_CLIENTE_NOME && BAGDA_CLIENTE_NOME.duplicata(CL, c, null); if (dupN) throw new Error(BAGDA_CLIENTE_NOME.mensagem(dupN));
+      if (c.limite_prazo != null && c.limite_prazo !== "" && role !== "admin") throw new Error("Só admin define o limite Paga Depois");
       const nc = { id: CL.length + 1, nome: c.nome.trim(), telefone: c.telefone || "", doc: d, email: role !== "vendedor" ? c.email || "" : "", endereco: role !== "vendedor" ? c.endereco || "" : "", obs: role !== "vendedor" ? c.obs || "" : "", atendimento: c.atendimento || null, limite_prazo: c.limite_prazo == null || c.limite_prazo === "" ? null : Number(c.limite_prazo), ativo: true }; CL.push(nc); return nc.id; },
     async clientes() { await ready; needFin(); return CL.map(c => ({ ...c, total_fiado: fiado(c.id), total_recebido: recebido(c.id), saldo: fiado(c.id) - recebido(c.id) })); },
     async clienteExtrato(cid) { await ready; needFin(); const c = CL.find(x => x.id === cid); if (!c) throw new Error("Cliente não encontrado");
@@ -669,7 +673,8 @@ if (!MOCK && !CONFIGURED) {
       const total_prazo = notas.filter(n => n.status === "ativa").reduce((a, n) => a + n.prazo, 0), total_recebido = recebido(cid), saldo = total_prazo - total_recebido;
       return { cliente_id: cid, nome: c.nome, saldo, total_prazo, total_recebido, recebido_vinculado: 0, credito_saldo, explicacao: `Saldo a receber = Paga Depois das notas ativas vinculadas a este cliente (${total_prazo.toFixed(2)}) menos os recebimentos (${total_recebido.toFixed(2)}). O crédito da loja é outra conta e não abate essa dívida.`, historico_sem_vinculo: "Notas antigas só com nome digitado, sem cliente vinculado, não são procuradas nem listadas.", notas, recebimentos: [], creditos }; },
     async adicionarDivida(cli, v0, obs, chave) { await ready; if (role !== "admin") throw new Error("Somente admin"); if (!chave || !/^[A-Za-z0-9._:-]{8,80}$/.test(String(chave))) throw new Error("Informe a chave da dívida"); const parsed = parseValorDivida(v0); if (parsed.error) throw new Error(parsed.error); const v = parsed.value; const prev = DIVK[chave]; if (prev) { if (prev.cliente_id !== cli || prev.valor !== v) throw new Error("Chave já usada em outra dívida"); return { ...prev, idempotente: true, saldo: fiado(cli) - recebido(cli) }; } const c = CL.find(x => x.id === cli); if (!c) throw new Error("Cliente não encontrado"); if (!c.ativo) throw new Error("Cliente inativo"); const est = P.reduce((a, p) => a + p.estoque, 0), cx0 = MV.length, cr0 = CR.length; const nid = id++; const label = ("DÍVIDA ANTERIOR" + (obs && String(obs).trim() ? " — " + String(obs).trim() : "")).slice(0, 200); N.push({ frete: v, caxinha_natal: 0, local_pagamento: null, obs_pagamento: label, cliente_id: cli, nota_id: nid, data: today(), created_at: new Date().toISOString(), cliente: c.nome, status: "ativa", total: v, handle: meU.handle, nome: meU.nome, pagamento: "prazo" }); PG.push({ nota_id: nid, metodo: "prazo", valor: v }); if (P.reduce((a, p) => a + p.estoque, 0) !== est || MV.length !== cx0 || CR.length !== cr0 || IT.some(i => i.nota_id === nid)) throw new Error("Dívida não pode mover estoque, caixa ou crédito"); const out = { nota_id: nid, valor: v, cliente_id: cli, frete: v, saldo: fiado(cli) - recebido(cli), idempotente: false, rotulo: "DÍVIDA ANTERIOR" }; DIVK[chave] = out; return out; },
-    async salvarCliente(cid, c) { needFin(); if (c.doc && !docOk(c.doc)) throw new Error("CPF/CNPJ inválido"); const dupN = c && globalThis.BAGDA_CLIENTE_NOME && (c.nome || c.doc || c.telefone) && BAGDA_CLIENTE_NOME.duplicata(CL, c, cid); if (dupN) throw new Error(BAGDA_CLIENTE_NOME.mensagem(dupN)); Object.assign(CL.find(x => x.id === cid), c); },
+    async salvarCliente(cid, c) { needFin(); if (c.doc && !docOk(c.doc)) throw new Error("CPF/CNPJ inválido"); const dupN = c && globalThis.BAGDA_CLIENTE_NOME && (c.nome || c.doc || c.telefone) && BAGDA_CLIENTE_NOME.duplicata(CL, c, cid); if (dupN) throw new Error(BAGDA_CLIENTE_NOME.mensagem(dupN)); const cur = CL.find(x => x.id === cid); if (c && Object.prototype.hasOwnProperty.call(c, "limite_prazo") && (c.limite_prazo ?? null) !== (cur.limite_prazo ?? null) && role !== "admin") throw new Error("Só admin define o limite Paga Depois"); Object.assign(cur, c); },
+    async limitePrazo(id) { const c = CL.find(x => x.id === id); if (!c) throw new Error("Cliente não encontrado"); const aberto = Math.round(N.filter(n => n.cliente_id === id && n.status === "ativa").reduce((a, n) => { const pz = PG.filter(g => g.nota_id === n.nota_id && g.metodo === "prazo").reduce((s, g) => s + Number(g.valor), 0), rec = (typeof AL !== "undefined" ? AL : []).filter(x => x.nota_id === n.nota_id).reduce((s, x) => s + Number(x.valor), 0), em = Math.round((pz - rec) * 100) / 100; return a + (em > 0.001 ? em : 0); }, 0) * 100) / 100; const lim = c.limite_prazo == null || c.limite_prazo === "" ? null : Number(c.limite_prazo), sem = lim == null || lim <= 0; return { cliente_id: id, limite: sem ? null : lim, sem_limite: sem, aberto, disponivel: sem ? null : Math.round((lim - aberto) * 100) / 100 }; },
     async fornecedores() { await ready; needFin(); return FO; },
     async salvarFornecedor(fid, f) { needFin(); if (f.cnpj && !docOk(f.cnpj)) throw new Error("CNPJ inválido"); fid ? Object.assign(FO.find(x => x.id === fid), f) : FO.push({ id: FO.length + 1, ativo: true, ...f }); },
     async contas() { await ready; needFin(); const hj = today(); return CP.map(k => { const p = pago(k.id); return { ...k, fornecedor: (FO.find(f => f.id === k.fornecedor_id) || {}).nome, pago: p, restante: k.valor - p, status: p >= k.valor ? "paga" : k.vencimento < hj ? "vencida" : p > 0 ? "parcial" : "aberta" }; }); },
@@ -745,14 +750,23 @@ if (!MOCK && !CONFIGURED) {
     async receberCxesp(cli, v0, forma, data, obs, chave) { if (meU.role !== "admin") throw new Error("Somente admin"); if (!chave || String(chave).length < 8) throw new Error("Informe a chave do recebimento"); if (!["dinheiro", "pix", "cartao", "transferencia"].includes(forma)) throw new Error("Forma de pagamento inválida"); const sig = chave + "|" + cli + "|" + v0 + "|" + forma; if (RC._cx && RC._cx[sig]) return { ...RC._cx[sig], idempotente: true }; const sd = Math.max(fiado(cli) - recebido(cli), 0), v = Math.min(v0, sd), ex = Math.round((v0 - v) * 100) / 100, antes = MV.length; const mid = id++; CXE.push({ id: mid, tipo: "entrada", valor: v0, motivo: "Recebimento cliente " + CL.find(c => c.id === cli).nome, created_at: new Date().toISOString() }); let rid = null, cred = null; if (v > 0) { rid = id++; RC.unshift({ id: rid, cliente_id: cli, valor: v, caixa_id: null, cxesp: mid, forma, data: data || today(), obs }); let rest = v; for (const n of N.filter(x => x.cliente_id === cli && x.status === "ativa").sort((a, b) => a.nota_id - b.nota_id)) { if (rest <= 0) break; const open = PG.filter(g => g.nota_id === n.nota_id && g.metodo === "prazo").reduce((a, g) => a + g.valor, 0) - AL.filter(x => x.nota_id === n.nota_id).reduce((a, x) => a + x.valor, 0); if (open <= 0) continue; const a = Math.min(open, rest); AL.push({ nota_id: n.nota_id, valor: a, rec: rid }); rest -= a; } } if (ex > 0) { cred = id++; CR.push({ id: cred, cliente_id: cli, tipo: "entrada", valor: ex, obs: v > 0 ? "Excedente pagamento" : "Excedente pagamento (sem dívida em aberto)", nota_id: null, handle: meU.handle, created_at: new Date().toISOString() }); if (rid) RC[0].excedente = cred; } if (MV.length !== antes) throw new Error("CAIXA SPECIAL não entra nos caixas do dia"); const res = { recebimento_id: rid, quitado: v, credito: ex, cxesp_id: mid, destino: "cxesp", idempotente: false }; RC._cx = RC._cx || {}; RC._cx[sig] = res; return res; },
     async caixasLista() { needCx(); return CX.filter(c => !c.somente_admin || role === "admin"); },
     async caixasPix() { const P = globalThis.BAGDA_PIX_LOCAIS; if (!P) return []; return P.IDS.map(id => { const row = CX.find(c => c.caixa_id === id); return { caixa_id: id, nome: row ? row.nome : P.FALLBACK[id] }; }); },
-    async criarNota(items, pags, cliente, clienteId, local, obs, frete = 0, caxinha = 0, prazoDias = null) { await new Promise(r => setTimeout(r, 400)); if (qs.has("fail")) throw new Error("Falha simulada (demo ?fail=1)"); if (role === "financeiro") throw new Error("Sem permissão para criar nota"); const pixNomes = globalThis.BAGDA_PIX_LOCAIS ? BAGDA_PIX_LOCAIS.valores(CX, false) : [], locaisOk = LOCAIS.concat(pixNomes, meU.role === "admin" ? ["CAIXA ESPECIAL"] : []); if (local ? !locaisOk.includes(local) : pags.some(g => g.metodo !== "prazo" && +g.valor > 0)) throw new Error("Escolha o Local do pagamento");
-      if (pags.some(g => g.metodo === "prazo") && (prazoDias == null || prazoDias === "" || !(+prazoDias >= 1 && +prazoDias <= 30))) throw new Error("Informe o prazo (1 a 30 dias) para Paga Depois");
+    async criarNota(items, pags, cliente, clienteId, local, obs, frete = 0, caxinha = 0, prazoDias = null, limiteOverride = false) { await new Promise(r => setTimeout(r, 400)); if (qs.has("fail")) throw new Error("Falha simulada (demo ?fail=1)"); if (role === "financeiro") throw new Error("Sem permissão para criar nota"); const pixNomes = globalThis.BAGDA_PIX_LOCAIS ? BAGDA_PIX_LOCAIS.valores(CX, false) : [], locaisOk = LOCAIS.concat(pixNomes, meU.role === "admin" ? ["CAIXA ESPECIAL"] : []); if (local ? !locaisOk.includes(local) : pags.some(g => g.metodo !== "prazo" && +g.valor > 0)) throw new Error("Escolha o Local do pagamento");
+      const temPrazo = pags.some(g => g.metodo === "prazo");
+      if (temPrazo && (prazoDias == null || prazoDias === "" || !(+prazoDias >= 1 && +prazoDias <= 30))) throw new Error("Informe o prazo (1 a 30 dias) para Paga Depois");
+      let autorizou = false;
+      if (temPrazo && clienteId) { const info = await this.limitePrazo(clienteId), valor = pags.filter(g => g.metodo === "prazo").reduce((a, g) => a + Number(g.valor), 0);
+        if (!info.sem_limite && Math.round((info.aberto + valor) * 100) > Math.round(info.limite * 100)) {
+          const msg = `Limite Paga Depois estourado. Em aberto ${brl(info.aberto)}, limite ${brl(info.limite)}, esta nota ${brl(valor)}.`;
+          if (role === "admin" && limiteOverride) autorizou = true;
+          else if (role === "admin") throw new Error(msg + " Confirme a autorização de admin para passar do limite.");
+          else throw new Error(msg + " Só o admin pode autorizar.");
+        } }
       if (local === "CAIXA GERAL") { if (!clienteId) throw new Error("Caixa Geral exige cliente cadastrado"); const t = Math.round((items.reduce((a, x) => a + x.qtd * x.preco_vendido, 0) + (+frete || 0) + (+caxinha || 0)) * 100) / 100, sd = crSaldo(clienteId); if (t > sd + 0.001) throw new Error(`Crédito insuficiente na Caixa Geral (saldo ${brl(sd)})`);
         const nid = mkNota(items, [{ metodo: "credito", valor: t }], cliente, meU, null, clienteId, local, obs, frete, caxinha, null); CR.push({ id: id++, cliente_id: clienteId, tipo: "uso", valor: t, obs: "Nota " + String(nid).padStart(6, "0"), nota_id: nid, handle: meU.handle, created_at: new Date().toISOString() }); return nid; }
       if (local === "BITLOG CONTAINER" && meU.role !== "admin") throw new Error("Somente admin");
-      if (local === "CAIXA ESPECIAL") { if (meU.role !== "admin") throw new Error("Somente admin"); const pago = Math.round(pags.filter(g => g.metodo !== "prazo" && g.metodo !== "credito").reduce((a, g) => a + Number(g.valor), 0) * 100) / 100; if (!(pago > 0)) throw new Error("Nota sem valor para a Caixa Especial"); const antes = MV.length; const nid = mkNota(items, pags, cliente, meU, null, clienteId, local, obs, frete, caxinha, prazoDias); if (MV.length !== antes) throw new Error("CAIXA ESPECIAL não entra nos caixas do dia"); const mid = id++; CXE.push({ id: mid, tipo: "entrada", valor: pago, motivo: "Nota " + String(nid).padStart(6, "0"), nota_id: nid, created_at: new Date().toISOString() }); const n = N.find(x => x.nota_id === nid); n.cxesp_mov = mid; n.caixa_lancada_id = null; n.lancada_em = n.created_at; return nid; }
+      if (local === "CAIXA ESPECIAL") { if (meU.role !== "admin") throw new Error("Somente admin"); const pago = Math.round(pags.filter(g => g.metodo !== "prazo" && g.metodo !== "credito").reduce((a, g) => a + Number(g.valor), 0) * 100) / 100; if (!(pago > 0)) throw new Error("Nota sem valor para a Caixa Especial"); const antes = MV.length; const nid = mkNota(items, pags, cliente, meU, null, clienteId, local, obs, frete, caxinha, prazoDias); if (MV.length !== antes) throw new Error("CAIXA ESPECIAL não entra nos caixas do dia"); const mid = id++; CXE.push({ id: mid, tipo: "entrada", valor: pago, motivo: "Nota " + String(nid).padStart(6, "0"), nota_id: nid, created_at: new Date().toISOString() }); const n = N.find(x => x.nota_id === nid); n.cxesp_mov = mid; n.caixa_lancada_id = null; n.lancada_em = n.created_at; if (autorizou) { n.limite_override = true; n.limite_override_em = new Date().toISOString(); n.limite_override_handle = meU.handle; } return nid; }
       if (+caxinha > 0 && qs.has("nocaxinha")) throw new Error("Caxinha d Natal depende de atualização do banco — avise o admin.");
-      if (+frete > 0 && qs.has("nofrete")) throw new Error("Frete depende de atualização do banco — avise o admin."); return mkNota(items, pags, cliente, meU, null, clienteId, local, obs, frete, caxinha, prazoDias); },
+      if (+frete > 0 && qs.has("nofrete")) throw new Error("Frete depende de atualização do banco — avise o admin."); const nid = mkNota(items, pags, cliente, meU, null, clienteId, local, obs, frete, caxinha, prazoDias); if (autorizou) { const n = N.find(x => x.nota_id === nid); n.limite_override = true; n.limite_override_em = new Date().toISOString(); n.limite_override_handle = meU.handle; } return nid; },
     async freteDia(d) { if (role !== "admin" && role !== "financeiro") return null; const L = N.filter(n => n.data === d && n.status === "ativa" && !String(n.obs_pagamento || "").startsWith("DÍVIDA ANTERIOR")); return { data: d, frete: L.reduce((a, n) => a + (n.frete || 0), 0), notas: L.filter(n => n.frete > 0).length }; },
     async caxinhaDia(d) { if (role !== "admin" && role !== "financeiro") return null; const L = N.filter(n => n.data === d && n.status === "ativa"); return { data: d, caxinha: L.reduce((a, n) => a + (n.caxinha_natal || 0), 0), notas: L.filter(n => n.caxinha_natal > 0).length }; },
     async notaHead(nid) { return vis().filter(x => x.nota_id === nid); },
@@ -1237,7 +1251,7 @@ async function boot() {
   refreshCobrancaBadge();
   refreshVencimentosBadge();
   if (MOCK && qs.get("demo") === "resumo") { const L = await api.caixasLista(), px = L.find(x => x.metodo === "pix").caixa_id; await api.caixaAbrir(px, 0).catch(() => {}); await api.receber(1, 500, px, "pix", null, "parcial"); return viewResumo(today(), px); }
-  if (MOCK && qs.get("demo") === "prazo") return viewRecibo(await api.criarNota([{ sku: "JBL-001", qtd: 1, preco_vendido: 799 }], [{ metodo: "prazo", valor: 599 }, { metodo: "pix", valor: 200 }], null, 1, "DINHEIRO", null, 0, 0, 7));
+  if (MOCK && qs.get("demo") === "prazo") return viewRecibo(await api.criarNota([{ sku: "JBL-001", qtd: 1, preco_vendido: 799 }], [{ metodo: "prazo", valor: 599 }, { metodo: "pix", valor: 200 }], null, 1, "DINHEIRO", null, 0, 0, 7, me.role === "admin"));
   if (MOCK && qs.has("demo")) return viewRecibo(await api.criarNota([{ sku: "JBL-001", qtd: 1, preco_vendido: 799 }, { sku: "BAS-001", qtd: 2, preco_vendido: 49.9 }], [{ metodo: "pix", valor: 500 }, { metodo: "cartao", valor: 398.8 }], "Cliente Teste"));
   go(location.hash.slice(1) || (can("vendas") ? "nota" : can("caixa") ? "caixa" : can("estoque") ? "estoque" : "seguranca"));
   if (window.BAGDA_PONTO) {
@@ -1917,6 +1931,7 @@ async function viewNota() {
   <div class="grid" id="lpbox"><div><label>Local do pagamento *</label><select id="lp" required><option value="">— selecione —</option>${LOCAIS.concat(me.role === "admin" ? LOCAIS_ADMIN : []).map(l => `<option>${l}</option>`).join("")}</select></div>
   <div><label>Observação (opcional)</label><input id="obp" maxlength="200" placeholder="Ex.: maquininha 2, pago pelo marido…"></div></div><p class="muted" id="lpinfo"></p>
   <div id="prazobox" hidden><label for="pagaem">Paga em *</label><select id="pagaem">${(globalThis.BAGDA_PRAZO ? BAGDA_PRAZO.optionsHtml(7) : "")}</select><p class="muted" id="pagavenc"></p></div>
+  <div id="limbox" hidden></div>
   <label>Nome do cliente (referência, sem cadastro)</label><input id="cref" maxlength="120" placeholder="Opcional — sai no cupom como Cliente:">
   <label>Cliente cadastrado (obrigatório para Paga Depois e Caixa Geral)</label><input id="cl" type="search" autocomplete="off" maxlength="120" placeholder="Buscar por nome, telefone ou CPF…">
   <ul id="csug" class="sug"></ul><div id="csel" class="muted"></div>
@@ -1956,7 +1971,8 @@ async function viewNota() {
     items.push({ sku: p.sku, qtd: q, preco_vendido: pv, origem, nome: `${p.marca} ${p.produto} ${p.tamanho || ""}`.trim() }); toast(`+ ${p.marca} ${p.produto} (${VO.origemLabel(origem)})`);
     $("#f").reset(); if ($("#origem")) $("#origem").value = origem; $("#sku").value = ""; $("#sel").innerHTML = ""; $("#w").textContent = ""; $("#pv").placeholder = ""; hi = 0; showDisp(); drawS(); draw(); $("#bq").focus(); };
   let cli = null;
-  const setCli = c => { cli = c; $("#csel").innerHTML = c ? `Cliente: <b>${esc(c.nome)}</b> ${esc(c.telefone || "")} ${c.doc ? esc(fmtDoc(c.doc)) : ""} <button type="button" id="cx0">✕</button>` : ""; $("#csug").innerHTML = ""; if (c) { $("#cl").value = ""; $("#cx0").onclick = () => setCli(null); } };
+  let limRefresh = async () => {};
+  const setCli = c => { cli = c; $("#csel").innerHTML = c ? `Cliente: <b>${esc(c.nome)}</b> ${esc(c.telefone || "")} ${c.doc ? esc(fmtDoc(c.doc)) : ""} <button type="button" id="cx0">✕</button>` : ""; $("#csug").innerHTML = ""; if (c) { $("#cl").value = ""; $("#cx0").onclick = () => setCli(null); } limRefresh(); };
   let ct0; $("#cl").oninput = () => { clearTimeout(ct0); ct0 = setTimeout(async () => { const q = $("#cl").value; const L = q.trim().length >= 2 ? await api.buscarClientes(q).catch(e => (toast(e.message), [])) : [];
     $("#csug").innerHTML = L.map((c, i) => `<li data-i="${i}"><b>${esc(c.nome)}</b> <small>${esc(c.telefone || "")} ${c.doc ? "· " + esc(fmtDoc(c.doc)) : ""}</small></li>`).join("") || (q.trim().length >= 2 ? '<li class="off">Nenhum cliente — use "+ Novo cliente"</li>' : "");
     document.querySelectorAll("#csug li[data-i]").forEach(li => li.onmousedown = e => { e.preventDefault(); setCli(L[+li.dataset.i]); }); }, 200); };
@@ -1979,6 +1995,19 @@ async function viewNota() {
       const dias = +sel.value || BAGDA_PRAZO.DEFAULT_DIAS, venc = BAGDA_PRAZO.addDays(today(), dias);
       lab.innerHTML = `Vencimento: <b>${dBR(venc)}</b>. O prazo conta a partir de hoje (data da nota).`;
     }
+    limRefresh();
+  };
+  limRefresh = async () => {
+    const box = $("#limbox"); if (!box) return;
+    if (!prazoNeed() || !cli) { box.hidden = true; box.innerHTML = ""; return; }
+    box.hidden = false; box.innerHTML = `<p class="muted">Consultando limite…</p>`;
+    let info; try { info = await api.limitePrazo(cli.id); } catch (e) { box.innerHTML = `<p class="warn">${esc(e.message)}</p>`; return; }
+    if (!prazoNeed() || !cli || cli.id !== info.cliente_id) return;
+    const sem = !!info.sem_limite, prazoValor = pgs.filter(g => g.metodo === "prazo").reduce((a, g) => a + (Number(g.valor) || 0), 0);
+    const estoura = !sem && Math.round((Number(info.aberto) + prazoValor) * 100) > Math.round(Number(info.limite) * 100);
+    box.innerHTML = `<p><b>Limite:</b> ${sem ? "sem limite" : brl(info.limite)} · <b>em aberto:</b> ${brl(info.aberto)} · <b>disponível:</b> ${sem ? "sem limite" : brl(info.disponivel)}</p>`
+      + (estoura ? `<p class="warn">Esta nota (${brl(prazoValor)}) passa do limite. ${me.role === "admin" ? "Marque a autorização para salvar. A autorização fica registrada na nota." : "Só o admin pode autorizar."}</p>` : "")
+      + (me.role === "admin" && !sem ? `<label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="limok" style="width:auto"> Autorizar esta nota mesmo acima do limite</label>` : "");
   };
   const fillLp = () => { const sel = $("#lp"); if (!sel || !globalThis.BAGDA_PIX_LOCAIS) return; const prev = sel.value, PX = globalThis.BAGDA_PIX_LOCAIS;
     const opts = PX.soPix(pgs) ? PX.opcoes(caixasPix, me.role === "admin") : LOCAIS.concat(me.role === "admin" ? LOCAIS_ADMIN : []).map(l => ({ value: l, label: l }));
@@ -2009,13 +2038,22 @@ async function viewNota() {
     if (P2.some(g => g.metodo === "prazo") && !cli) return toast("Paga Depois exige cliente — busque ou cadastre o cliente");
     const prazoDias = P2.some(g => g.metodo === "prazo") ? +(($("#pagaem") || {}).value || 0) : null;
     if (P2.some(g => g.metodo === "prazo") && !(prazoDias >= 1 && prazoDias <= 30)) { toast("Informe em quantos dias o cliente paga (1 a 30)"); return $("#pagaem") && $("#pagaem").focus(); }
+    let limiteOverride = false;
+    if (P2.some(g => g.metodo === "prazo") && cli && api.limitePrazo) {
+      let info; try { info = await api.limitePrazo(cli.id); } catch (e) { return toast(e.message); }
+      const prazoValor = P2.filter(g => g.metodo === "prazo").reduce((a, g) => a + g.valor, 0);
+      const estoura = info && !info.sem_limite && Math.round((Number(info.aberto) + prazoValor) * 100) > Math.round(Number(info.limite) * 100);
+      if (estoura && me.role !== "admin") return toast(`Limite Paga Depois estourado. Em aberto ${brl(info.aberto)}, limite ${brl(info.limite)}, esta nota ${brl(prazoValor)}. Só o admin pode autorizar.`);
+      if (estoura && !($("#limok") && $("#limok").checked)) return toast("Limite Paga Depois estourado. Marque a autorização de admin para passar do limite. A autorização fica registrada.");
+      limiteOverride = !!estoura;
+    }
     const prazoTxt = prazoDias ? (prazoDias === 1 ? "1 dia" : prazoDias + " dias") + (globalThis.BAGDA_PRAZO ? " (vence " + dBR(BAGDA_PRAZO.addDays(today(), prazoDias)) + ")" : "") : "";
     const lpN = P2.some(g => g.metodo !== "prazo"), LP = lpN ? $("#lp").value : null, OBP = lpN ? $("#obp").value.trim() : ""; if (lpN && !LP) { toast("Escolha o Local do pagamento"); return $("#lp").focus(); }
     if (LP === "CAIXA GERAL") { if (!cli) return toast("Caixa Geral exige cliente cadastrado — busque ou cadastre o cliente"); P2.splice(0, P2.length, { metodo: "credito", valor: t }); }
     if (LP === "CAIXA ESPECIAL" && me.role !== "admin") return toast("Somente admin");
     if (notaSaving) return; notaSaving = true; if (!(await confirmNota(items, t, P2.map(g => `${esc(PAYL[g.metodo] || g.metodo)} ${brl(g.valor)}`).join(" + "), FR, CXV, prazoTxt))) { notaSaving = false; return; } const fb = $("#fin"), lbl = fb.textContent; fb.disabled = true; fb.textContent = "Salvando..."; document.querySelectorAll(".nb").forEach(x => x.remove());
     const total = t, pagTxt = P2.map(g => `${esc(PAYL[g.metodo] || g.metodo)} ${brl(g.valor)}`).join(" + ");
-    try { const nid = await api.criarNota(items.map(({ sku, qtd, preco_vendido, origem }) => ({ sku, qtd, preco_vendido, ...(origem === "especial" ? { origem: "especial" } : {}) })), P2, cli ? cli.nome : ($("#cref").value.trim() || $("#cl").value), cli ? cli.id : null, LP, OBP, FR, CXV, prazoDias);
+    try { const nid = await api.criarNota(items.map(({ sku, qtd, preco_vendido, origem }) => ({ sku, qtd, preco_vendido, ...(origem === "especial" ? { origem: "especial" } : {}) })), P2, cli ? cli.nome : ($("#cref").value.trim() || $("#cl").value), cli ? cli.id : null, LP, OBP, FR, CXV, prazoDias, limiteOverride);
       if (!nidOk(nid)) throw new Error("Servidor não confirmou o número da nota (retorno: " + JSON.stringify(nid) + ")");
       const R = await api.nota(+nid).then(r => r && r.length ? r : api.notaHead(+nid)); if (!R || !R.length) throw new Error("Nota " + nid + " não encontrada após salvar");
       items = []; await viewRecibo(+nid);
@@ -2098,18 +2136,22 @@ async function viewNotas() {
   const label = d => { const k = dkey(d); return k === hoje ? "Hoje" : k === ontem ? "Ontem" : new Intl.DateTimeFormat("pt-BR", { timeZone: TZ, weekday: "short", day: "2-digit", month: "2-digit", year: "numeric" }).format(d); };
   const cli = n => (n.cliente || n.cliente_nome || "").trim();
   const cols = adm ? 7 : 6;
-  const draw = q0 => {
+  const temSem = all.some(n => Object.prototype.hasOwnProperty.call(n, "sem_vencimento"));
+  const nSem = all.filter(n => n.sem_vencimento).length;
+  const draw = (q0, onlySem) => {
     const q = (q0 || "").trim(), ql = q.toLowerCase();
-    const L = all.filter(n => !ql || [String(n.nota_id).padStart(6, "0"), cli(n), n.pagamento, n.handle, n.nome, n.motivo_cancel, n.cancelada_handle].join(" ").toLowerCase().includes(ql));
+    const L = all.filter(n => (!onlySem || n.sem_vencimento) && (!ql || [String(n.nota_id).padStart(6, "0"), cli(n), n.pagamento, n.handle, n.nome, n.motivo_cancel, n.cancelada_handle].join(" ").toLowerCase().includes(ql)));
     let last = "", rows = "";
     for (const n of L) { const d = new Date(n.created_at), k = dkey(d);
       if (k !== last) { rows += `<tr class="sep"><th colspan="${cols}">${esc(label(d))}</th></tr>`; last = k; }
       rows += `<tr><td>${String(n.nota_id).padStart(6, "0")}</td><td>${esc(dt(d))}</td><td>${cli(n) ? esc(cli(n)) : "—"}</td><td>${esc(String(n.pagamento || "").split("+").map(m => PAYL[m] || m).join(" + "))}${n.status === "cancelada" ? ` <b class="warn">CANCELADA</b><br><small>Motivo: ${esc(cancelMotivoTxt(n) || "não informado")}</small>${cancelQuem(n) ? `<br><small class="muted">${esc(cancelQuem(n))}</small>` : ""}` : ""}</td>${adm ? `<td>${esc(n.handle)}</td>` : ""}<td class="n">${brl(n.total)}</td><td><button class="ver" data-n="${n.nota_id}">Ver / imprimir</button>${adm && n.status !== "cancelada" ? ` <button class="cx" data-n="${n.nota_id}">Cancelar</button>` : ""}</td></tr>`; }
     app.innerHTML = `<div class="card"><h2>${adm ? "Notas" : "Minhas notas"}</h2>
+    ${adm ? (temSem ? `<label class="noprint" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="nsem" style="width:auto" ${onlySem ? "checked" : ""}> Paga Depois sem vencimento${nSem ? ` (${nSem})` : ""}</label><p class="muted">Notas antigas a prazo que ficaram sem data. Nada é alterado daqui — o admin corrige uma a uma.</p>` : `<p class="muted">O filtro Paga Depois sem vencimento depende de supabase-loja/migration-prazo-limite-2026-11-16.sql.</p>`) : ""}
     <label class="noprint">Buscar</label><input id="nq" class="noprint" placeholder="Nº, cliente, pagamento…" value="${esc(q)}" style="max-width:280px;margin-bottom:12px">
     <table class="stk"><tr><th>Nº</th><th>Data / hora</th><th>Cliente</th><th>Pagamento</th>${adm ? "<th>Vendedor</th>" : ""}<th class="n">Total</th><th></th></tr>
     ${rows || `<tr><td colspan="${cols}" class="muted">${q ? "Nenhuma nota neste filtro." : "Nenhuma nota."}</td></tr>`}</table></div>`;
-    const inp = $("#nq"); inp.oninput = ev => { const v = ev.target.value, s = ev.target.selectionStart; draw(v); const ninp = $("#nq"); ninp.focus(); try { ninp.setSelectionRange(s, s); } catch (e) {} };
+    const inp = $("#nq"); inp.oninput = ev => { const v = ev.target.value, s = ev.target.selectionStart, on = !!($("#nsem") && $("#nsem").checked); draw(v, on); const ninp = $("#nq"); ninp.focus(); try { ninp.setSelectionRange(s, s); } catch (e) {} };
+    if ($("#nsem")) $("#nsem").onchange = () => draw($("#nq").value, $("#nsem").checked);
     document.querySelectorAll(".ver").forEach(b => b.onclick = () => viewRecibo(+b.dataset.n));
     document.querySelectorAll(".cx").forEach(b => b.onclick = async () => { const m = await textBox("Cancelar nota", `Cancelar a nota <b>${String(b.dataset.n).padStart(6, "0")}</b>?<br><small>O motivo é <b>obrigatório</b> (mínimo 3 letras). Ele fica gravado na nota e aparece na lista, no extrato e no cupom. Sem motivo nada é cancelado. O estoque volta e o valor lançado em caixa é estornado.</small>`, "Cancelar nota", true, true);
       if (!m) return; try { await api.cancelarNota(+b.dataset.n, m.trim()); toast("Nota cancelada ✓"); viewNotas(); } catch (e) { toast(e.message); } });
@@ -2219,6 +2261,7 @@ async function viewClienteExtrato(cid, back) {
     <tr class="cxi" data-p="${n.nota_id}" hidden><td colspan="7"><p>${esc(n.porque)}</p><table><tr><th>Produto</th><th class="n">Qtd</th><th class="n">Preço da nota</th><th class="n">Total</th></tr>${(n.itens || []).map(i => `<tr><td>${esc(i.sku)} ${esc(i.marca)} ${esc(i.produto)} ${esc(i.tamanho || "")}</td><td class="n">${i.qtd}</td><td class="n">${brl(i.preco_vendido)}</td><td class="n">${brl(i.total)}</td></tr>`).join("") || `<tr><td colspan="4" class="muted">Sem mercadoria.</td></tr>`}</table></td></tr>`;
   app.innerHTML = `<div class="card"><h2>Extrato — ${esc(x.nome)} <button class="btn ghost" id="bk" style="float:right;margin:0">Voltar</button></h2>
   <div class="grid"><div class="kpi"><small>Saldo a receber</small><b>${brl(x.saldo)}</b></div><div class="kpi"><small>Paga Depois vinculado</small><b>${brl(x.total_prazo)}</b></div><div class="kpi"><small>Recebimentos</small><b>${brl(x.total_recebido)}</b></div><div class="kpi"><small>Crédito da loja</small><b>${brl(x.credito_saldo)}</b></div></div>
+  <div id="limk" class="muted">Limite Paga Depois: consultando…</div>
   <p>${esc(x.explicacao)}</p><p class="muted">${esc(x.historico_sem_vinculo)}</p>
   <h3>Notas vinculadas</h3><table class="stk"><tr><th>Nota</th><th>Data</th><th>Tipo</th><th>Status</th><th>Pagamento</th><th class="n">Total</th><th class="n">Em aberto</th></tr>
   ${notas.map(linha).join("") || `<tr><td colspan="7" class="muted">Nenhuma nota vinculada a este cliente.</td></tr>`}</table>
@@ -2228,6 +2271,7 @@ async function viewClienteExtrato(cid, back) {
   ${(x.creditos || []).map(k => `<tr><td>${esc(k.tipo)}</td><td>${esc(k.obs || "")}</td><td class="n">${k.tipo === "uso" ? "−" : "+"}${brl(k.valor)}</td></tr>`).join("") || `<tr><td colspan="3" class="muted">Sem crédito da loja.</td></tr>`}</table></div>`;
   $("#bk").onclick = () => (back || viewClientes)();
   app.querySelectorAll(".cxe").forEach(tr => tr.onclick = () => { const d = app.querySelector(`tr.cxi[data-p="${tr.dataset.n}"]`); if (d) d.hidden = !d.hidden; });
+  if (api.limitePrazo && $("#limk")) { try { const lim = await api.limitePrazo(cid); $("#limk").className = ""; $("#limk").innerHTML = lim.sem_limite ? `<b>Limite Paga Depois:</b> sem limite · <b>em aberto:</b> ${brl(lim.aberto)} · <b>disponível:</b> sem limite` : `<b>Limite Paga Depois:</b> ${brl(lim.limite)} · <b>em aberto:</b> ${brl(lim.aberto)} · <b>disponível:</b> ${brl(lim.disponivel)}`; } catch (e) { $("#limk").textContent = e.message; } }
 }
 async function viewClientes() {
   const L = await api.clientes(); let ed = null;
@@ -2235,23 +2279,19 @@ async function viewClientes() {
   <div><label>Nome *</label><input id="n" maxlength="120" required></div><div><label>CPF/CNPJ</label><input id="d" maxlength="18" inputmode="numeric"></div>
   <div><label>Telefone</label><input id="t" maxlength="30" inputmode="tel"></div><div><label>E-mail</label><input id="e" type="email" maxlength="160"></div></div>
   <label>Endereço</label><input id="a" maxlength="300"><label>Observações</label><input id="o" maxlength="500">
-  <div><label>Limite Paga Depois (R$) — opcional</label><input id="lim" inputmode="decimal" placeholder="vazio = sem limite"><p class="muted">Se o saldo em aberto chegar a esse valor, aparece em Contas a receber → Cobrança para o financeiro iniciar a cobrança.</p></div>
+  <div id="limbox">${me.role === "admin" ? `<label>Limite Paga Depois (R$) — opcional</label><input id="lim" inputmode="decimal" placeholder="vazio = sem limite"><p class="muted">Vazio ou 0 = sem limite, não bloqueia. Com limite, uma nota nova a prazo que passar do saldo em aberto é recusada. Só o admin autoriza e a autorização fica registrada. O financeiro não altera este campo.</p>` : `<p class="muted">O limite Paga Depois só o admin altera. Vazio ou 0 aparece como sem limite.</p>`}</div>
   <button class="btn" id="sv">Salvar cliente</button> <button type="button" class="btn ghost" id="cn" hidden>Cancelar edição</button></form></div>
   <div class="card"><h2>Clientes</h2><input id="b" type="search" placeholder="Buscar nome, telefone ou CPF…"><table id="tb" class="stk"></table></div>`;
   const draw = () => { const q = norm($("#b").value), dq = dig($("#b").value); const F = L.filter(c => !q || norm(c.nome).includes(q) || (dq && (dig(c.doc).includes(dq) || dig(c.telefone).includes(dq))));
-    const limTxt = c => c.limite_prazo == null || c.limite_prazo === "" ? "—" : brl(c.limite_prazo);
+    const limTxt = c => c.limite_prazo == null || c.limite_prazo === "" || Number(c.limite_prazo) === 0 ? "sem limite" : brl(c.limite_prazo);
     $("#tb").innerHTML = `<tr><th>Nome</th><th>CPF/CNPJ</th><th>Telefone</th><th>Atend.</th><th class="n">Limite Paga Depois</th><th class="n">Saldo a receber</th><th></th></tr>` + (F.map(c => `<tr><td>${esc(c.nome)}${c.email ? `<br><small class="muted">${esc(c.email)}</small>` : ""}</td><td>${esc(fmtDoc(c.doc))}</td><td>${esc(c.telefone || "")}</td><td>${esc(c.atendimento || "")}</td><td class="n">${limTxt(c)}</td><td class="n ${+c.saldo > 0 ? "low" : ""}">${brl(c.saldo)}</td><td><button class="vn" data-i="${c.id}">Ver notas</button> <button class="ed" data-i="${c.id}">Editar</button></td></tr>`).join("") || '<tr><td colspan="7" class="muted">Nenhum cliente.</td></tr>');
     document.querySelectorAll(".vn").forEach(b => b.onclick = () => viewClienteExtrato(+b.dataset.i));
-    document.querySelectorAll(".ed").forEach(b => b.onclick = () => { const c = L.find(x => x.id === +b.dataset.i); ed = c.id; $("#n").value = c.nome; $("#d").value = fmtDoc(c.doc); $("#t").value = c.telefone || ""; $("#e").value = c.email || ""; $("#a").value = c.endereco || ""; $("#o").value = c.obs || ""; $("#lim").value = c.limite_prazo == null || c.limite_prazo === "" ? "" : Number(c.limite_prazo).toFixed(2).replace(".", ","); $("#cn").hidden = false; $("#sv").textContent = "Salvar alterações"; scrollTo(0, 0); }); };
+    document.querySelectorAll(".ed").forEach(b => b.onclick = () => { const c = L.find(x => x.id === +b.dataset.i); ed = c.id; $("#n").value = c.nome; $("#d").value = fmtDoc(c.doc); $("#t").value = c.telefone || ""; $("#e").value = c.email || ""; $("#a").value = c.endereco || ""; $("#o").value = c.obs || ""; if ($("#lim")) $("#lim").value = c.limite_prazo == null || c.limite_prazo === "" || Number(c.limite_prazo) === 0 ? "" : Number(c.limite_prazo).toFixed(2).replace(".", ","); $("#cn").hidden = false; $("#sv").textContent = "Salvar alterações"; scrollTo(0, 0); }); };
   $("#b").oninput = draw; draw(); $("#cn").onclick = () => viewClientes();
   $("#f").onsubmit = async ev => { ev.preventDefault(); const c = { nome: val("n"), doc: dig(val("d")) || null, telefone: val("t") || null, email: val("e") || null, endereco: val("a") || null, obs: val("o") || null };
-    const limRaw = val("lim");
-    if (limRaw) {
-      let raw = limRaw.replace(/\s/g, ""); if (raw.includes(",")) raw = raw.replace(/\./g, "").replace(",", ".");
-      const vv = Math.round(Number(raw) * 100) / 100;
-      if (!Number.isFinite(vv) || vv < 0) return toast("Limite inválido");
-      c.limite_prazo = vv;
-    } else c.limite_prazo = null;
+    if (me.role === "admin" && $("#lim")) { const limRaw = val("lim");
+      if (limRaw) { let raw = limRaw.replace(/\s/g, ""); if (raw.includes(",")) raw = raw.replace(/\./g, "").replace(",", "."); const vv = Math.round(Number(raw) * 100) / 100; if (!Number.isFinite(vv) || vv < 0) return toast("Limite inválido"); c.limite_prazo = vv; }
+      else c.limite_prazo = null; }
     if (c.doc && !docOk(c.doc)) return toast("CPF/CNPJ inválido"); ev.submitter && (ev.submitter.disabled = true);
     if (!(await clienteCadastroLivre(c, ed))) { ev.submitter && (ev.submitter.disabled = false); return; }
     try {
