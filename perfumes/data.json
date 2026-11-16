@@ -2,8 +2,8 @@
  "meta": {
   "generated": "2026-10-27",
   "store": "BAGDA PERFUMES",
-  "priceRule": "Preço de varejo aprovado (24/10/2026)",
-  "count": 103,
+  "priceRule": "Varejo com final ,99. Referência proposta não é preço anterior comprovado (rascunho BF v4, 16/11/2026).",
+  "count": 106,
   "disclaimer": "As marcas e nomes de perfumes citados como inspiração olfativa pertencem aos seus respectivos donos e são usados apenas como referência de estilo. Nossos perfumes são fragrâncias originais das casas árabes que representamos — não são réplicas nem falsificações."
  },
  "perfumes": [
@@ -15,8 +15,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 115.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 94.99,
+   "priceLabel": "R$ 94,99",
    "photo": "assets/img/ferassa-jamra.webp",
    "photoSource": "assets/perfumes/FER-001-jamra.jpg",
    "family": null,
@@ -78,7 +78,11 @@
    "inspiredBy": null,
    "originalCreation": false,
    "inspiredSources": [],
-   "inspiredNote": "Fonte encontrada com dados embaralhados; não confiável."
+   "inspiredNote": "Fonte encontrada com dados embaralhados; não confiável.",
+   "priceFrom": 190,
+   "priceFromLabel": "R$ 190,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ferassa-nemer",
@@ -88,8 +92,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 115.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 94.99,
+   "priceLabel": "R$ 94,99",
    "photo": "assets/img/ferassa-nemer.webp",
    "photoSource": "assets/perfumes/FER-002-nemer.jpg",
    "family": null,
@@ -151,7 +155,11 @@
    "inspiredBy": null,
    "originalCreation": false,
    "inspiredSources": [],
-   "inspiredNote": "Fonte encontrada com dados embaralhados; não confiável."
+   "inspiredNote": "Fonte encontrada com dados embaralhados; não confiável.",
+   "priceFrom": 190,
+   "priceFromLabel": "R$ 190,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ferassa-delilah",
@@ -161,8 +169,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 115.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 94.99,
+   "priceLabel": "R$ 94,99",
    "photo": "assets/img/ferassa-delilah.webp",
    "photoSource": "assets/perfumes/FER-003-delilah.jpg",
    "family": null,
@@ -220,7 +228,11 @@
    "notesSource": "https://www.fragrantica.com.br/perfume/Ferassa/Delilah-119420.html",
    "inspiredBy": null,
    "originalCreation": false,
-   "inspiredSources": []
+   "inspiredSources": [],
+   "priceFrom": 190,
+   "priceFromLabel": "R$ 190,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ferassa-burkan",
@@ -230,8 +242,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 115.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 94.99,
+   "priceLabel": "R$ 94,99",
    "photo": "assets/img/ferassa-burkan.webp",
    "photoSource": "assets/perfumes/FER-004-burkan.jpg",
    "family": null,
@@ -289,7 +301,11 @@
    "inspiredBy": null,
    "originalCreation": false,
    "inspiredSources": [],
-   "inspiredNote": "Fonte encontrada com dados embaralhados; não confiável."
+   "inspiredNote": "Fonte encontrada com dados embaralhados; não confiável.",
+   "priceFrom": 190,
+   "priceFromLabel": "R$ 190,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "armaf-club-de-nuit-elite",
@@ -299,8 +315,8 @@
    "ml": 105,
    "soldOut": false,
    "shopPrice": 367.9,
-   "price": 299.99,
-   "priceLabel": "R$ 299,99",
+   "price": 264.99,
+   "priceLabel": "R$ 264,99",
    "photo": "assets/img/armaf-club-de-nuit-elite.webp",
    "photoSource": "assets/perfumes/ARM-cdn-elite.jpg",
    "family": "Cítrico Aromático",
@@ -376,7 +392,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/armaf-club-de-nuit-elite"
     }
-   ]
+   ],
+   "priceFrom": 530,
+   "priceFromLabel": "R$ 530,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "armaf-club-de-nuit-intense-fuego",
@@ -386,7 +406,7 @@
    "ml": 105,
    "soldOut": false,
    "shopPrice": 378.9,
-   "price": 320.0,
+   "price": 320,
    "priceLabel": "R$ 320,00",
    "photo": "assets/img/armaf-club-de-nuit-intense-fuego.webp",
    "photoSource": "assets/perfumes/ARM-cdn-intense-fuego.jpg",
@@ -471,7 +491,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 220.9,
-   "price": 210.0,
+   "price": 210,
    "priceLabel": "R$ 210,00",
    "photo": "assets/img/armaf-club-de-nuit-bling.webp",
    "photoSource": "assets/perfumes/ARM-bling.jpg",
@@ -538,8 +558,8 @@
    "ml": 105,
    "soldOut": false,
    "shopPrice": 199.9,
-   "price": 219.99,
-   "priceLabel": "R$ 219,99",
+   "price": 164.99,
+   "priceLabel": "R$ 164,99",
    "photo": "assets/img/armaf-club-de-nuit-intense-man.webp",
    "photoSource": "assets/perfumes/ARM-cdn-intense-man.jpg",
    "family": "Amadeirado Especiado",
@@ -612,7 +632,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/armaf-club-de-nuit-intense-man"
     }
-   ]
+   ],
+   "priceFrom": 330,
+   "priceFromLabel": "R$ 330,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "armaf-club-de-nuit-intense-woman",
@@ -622,8 +646,8 @@
    "ml": 105,
    "soldOut": false,
    "shopPrice": 173.9,
-   "price": 189.99,
-   "priceLabel": "R$ 189,99",
+   "price": 144.99,
+   "priceLabel": "R$ 144,99",
    "photo": "assets/img/armaf-club-de-nuit-intense-woman.webp",
    "photoSource": "assets/perfumes/ARM-cdn-intense-woman.jpg",
    "family": "Chipre Floral",
@@ -695,7 +719,11 @@
      "label": "CFC Australia",
      "url": "https://www.cfcaustralia.com.au/fragrances/p/club-de-nuit-intense-woman"
     }
-   ]
+   ],
+   "priceFrom": 290,
+   "priceFromLabel": "R$ 290,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "armaf-club-de-nuit-malika",
@@ -705,8 +733,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 204.9,
-   "price": 199.99,
-   "priceLabel": "R$ 199,99",
+   "price": 174.99,
+   "priceLabel": "R$ 174,99",
    "photo": "assets/img/armaf-club-de-nuit-malika.webp",
    "photoSource": "assets/perfumes/ARM-malika.jpg",
    "family": "Floral Frutado",
@@ -769,7 +797,11 @@
      "label": "Scentido",
      "url": "https://www.scentido.com.br/perfumes-contratipos/armaf-club-de-nuit-maleka"
     }
-   ]
+   ],
+   "priceFrom": 350,
+   "priceFromLabel": "R$ 350,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "armaf-tag-uomo-nero",
@@ -779,7 +811,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 189.9,
-   "price": 180.0,
+   "price": 180,
    "priceLabel": "R$ 180,00",
    "photo": "assets/img/armaf-tag-uomo-nero.webp",
    "photoSource": "assets/perfumes/ARM-tag-uomo-nero.jpg",
@@ -857,7 +889,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 168.9,
-   "price": 150.0,
+   "price": 150,
    "priceLabel": "R$ 150,00",
    "photo": "assets/img/armaf-le-parfait-pour-homme.webp",
    "photoSource": "assets/perfumes/ARM-le-parfait.jpg",
@@ -930,7 +962,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 178.9,
-   "price": 150.0,
+   "price": 150,
    "priceLabel": "R$ 150,00",
    "photo": "assets/img/armaf-magical-oud.webp",
    "photoSource": "assets/perfumes/ARM-magical-oud.jpg",
@@ -1000,8 +1032,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 241.9,
-   "price": 250.0,
-   "priceLabel": "R$ 250,00",
+   "price": 229.99,
+   "priceLabel": "R$ 229,99",
    "photo": "assets/img/armaf-island-bliss.webp",
    "photoSource": "assets/perfumes/ARM-island-bliss.jpg",
    "family": "Floral Frutado Gourmand",
@@ -1061,7 +1093,11 @@
    "inspiredBy": null,
    "originalCreation": false,
    "inspiredSources": [],
-   "inspiredNote": "Única comparação é com outro árabe (Khadlaj Island), baixa concordância."
+   "inspiredNote": "Única comparação é com outro árabe (Khadlaj Island), baixa concordância.",
+   "priceFrom": 460,
+   "priceFromLabel": "R$ 460,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "armaf-odyssey-go-mango",
@@ -1071,8 +1107,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 157.9,
-   "price": 155.0,
-   "priceLabel": "R$ 155,00",
+   "price": 129.99,
+   "priceLabel": "R$ 129,99",
    "photo": "assets/img/armaf-odyssey-go-mango.webp",
    "photoSource": "assets/perfumes/ARM-odyssey-mango.jpg",
    "family": "Oriental Floral",
@@ -1140,7 +1176,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/armaf-odyssey-go-mango"
     }
-   ]
+   ],
+   "priceFrom": 260,
+   "priceFromLabel": "R$ 260,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "armaf-odyssey-spectra",
@@ -1150,8 +1190,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 147.9,
-   "price": 150.0,
-   "priceLabel": "R$ 150,00",
+   "price": 119.99,
+   "priceLabel": "R$ 119,99",
    "photo": "assets/img/armaf-odyssey-spectra.webp",
    "photoSource": "assets/perfumes/ARM-odyssey-spectra.jpg",
    "family": "Oriental Especiado",
@@ -1224,7 +1264,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/armaf-odyssey-spectra"
     }
-   ]
+   ],
+   "priceFrom": 240,
+   "priceFromLabel": "R$ 240,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-strength-in-amber",
@@ -1234,8 +1278,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 126.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 79.99,
+   "priceLabel": "R$ 79,99",
    "photo": "assets/img/mpf-strength-in-amber.webp",
    "photoSource": "assets/perfumes/MPF-strength-in-amber.jpg",
    "family": "Amadeirado Especiado",
@@ -1301,7 +1345,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/apa-de-parfum-mpf-strength-in-amber-barbati-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 160,
+   "priceFromLabel": "R$ 160,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-wild-deep",
@@ -1311,8 +1359,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 79.99,
+   "priceLabel": "R$ 79,99",
    "photo": "assets/img/mpf-wild-deep.webp",
    "photoSource": "assets/perfumes/MPF-wild-deep.jpg",
    "family": "Amadeirado Aromático",
@@ -1371,7 +1419,11 @@
    "inspiredBy": null,
    "originalCreation": false,
    "inspiredSources": [],
-   "inspiredNote": "Única fonte com baixa concordância."
+   "inspiredNote": "Única fonte com baixa concordância.",
+   "priceFrom": 160,
+   "priceFromLabel": "R$ 160,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-scudo-electrique",
@@ -1381,8 +1433,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 89.99,
+   "priceLabel": "R$ 89,99",
    "photo": "assets/img/mpf-scudo-electrique.webp",
    "photoSource": "assets/perfumes/MPF-scudo-electrique.jpg",
    "family": "Aromático Especiado",
@@ -1452,7 +1504,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/apa-de-parfum-mpf-scudo-electrique-barbati/"
     }
-   ]
+   ],
+   "priceFrom": 180,
+   "priceFromLabel": "R$ 180,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-wicked",
@@ -1544,8 +1600,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 74.99,
+   "priceLabel": "R$ 74,99",
    "photo": "assets/img/mpf-black-morgan.webp",
    "photoSource": "assets/perfumes/MPF-black-morgan.jpg",
    "family": null,
@@ -1561,7 +1617,11 @@
    "notesSource": null,
    "inspiredBy": null,
    "originalCreation": false,
-   "inspiredSources": []
+   "inspiredSources": [],
+   "priceFrom": 150,
+   "priceFromLabel": "R$ 150,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-europa-very-red",
@@ -1571,8 +1631,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 115.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 94.99,
+   "priceLabel": "R$ 94,99",
    "photo": "assets/img/mpf-europa-very-red.webp",
    "photoSource": "assets/perfumes/MPF-europa-very-red.jpg",
    "family": "Oriental Floral",
@@ -1636,7 +1696,11 @@
      "label": "Farmacia Coralis",
      "url": "https://www.farmaciacoralis.com/products/mpf-europa-very-red-eau-de-parfum-100-ml"
     }
-   ]
+   ],
+   "priceFrom": 190,
+   "priceFromLabel": "R$ 190,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-his-dynasty",
@@ -1646,8 +1710,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 136.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 84.99,
+   "priceLabel": "R$ 84,99",
    "photo": "assets/img/mpf-his-dynasty.webp",
    "photoSource": "assets/perfumes/MPF-his-dynasty.jpg",
    "family": null,
@@ -1669,7 +1733,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/apa-de-parfum-mpf-his-dynasty-barbatii/"
     }
-   ]
+   ],
+   "priceFrom": 170,
+   "priceFromLabel": "R$ 170,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-two-dare",
@@ -1679,8 +1747,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 136.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 74.99,
+   "priceLabel": "R$ 74,99",
    "photo": "assets/img/mpf-two-dare.webp",
    "photoSource": "assets/perfumes/MPF-two-dare.jpg",
    "family": null,
@@ -1702,7 +1770,11 @@
      "label": "Bimus Perfumes (distribuidor autorizado My Perfumes, Quênia)",
      "url": "https://mpfkenya.com/product/two-dare/"
     }
-   ]
+   ],
+   "priceFrom": 150,
+   "priceFromLabel": "R$ 150,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-gossip-homme",
@@ -1712,8 +1784,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 136.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 89.99,
+   "priceLabel": "R$ 89,99",
    "photo": "assets/img/mpf-gossip-homme.webp",
    "photoSource": "assets/perfumes/MPF-gossip-homme.jpg",
    "family": null,
@@ -1792,7 +1864,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/apa-de-parfum-mpf-gossip-barbati/"
     }
-   ]
+   ],
+   "priceFrom": 180,
+   "priceFromLabel": "R$ 180,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-souls-intertwined-for-her",
@@ -1802,8 +1878,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 84.99,
+   "priceLabel": "R$ 84,99",
    "photo": "assets/img/mpf-souls-intertwined-for-her.webp",
    "photoSource": "assets/perfumes/MPF-souls-intertwined.jpg",
    "family": "Floral Amadeirado Almiscarado",
@@ -1866,7 +1942,11 @@
      "label": "Bimus Perfumes (distribuidor autorizado My Perfumes, Quênia)",
      "url": "https://mpfkenya.com/product/souls-intertwined/"
     }
-   ]
+   ],
+   "priceFrom": 170,
+   "priceFromLabel": "R$ 170,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-crypto-gold",
@@ -1876,8 +1956,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 115.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 79.99,
+   "priceLabel": "R$ 79,99",
    "photo": "assets/img/mpf-crypto-gold.webp",
    "photoSource": "assets/perfumes/MPF-crypto-gold.jpg",
    "family": "Floral Frutado Gourmand",
@@ -1938,7 +2018,11 @@
    "notesSource": "https://www.fragrantica.com.br/perfume/MPF/Crypto-Gold-128889.html",
    "inspiredBy": null,
    "originalCreation": false,
-   "inspiredSources": []
+   "inspiredSources": [],
+   "priceFrom": 160,
+   "priceFromLabel": "R$ 160,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-before-midnight-for-her",
@@ -1948,8 +2032,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 94.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 89.99,
+   "priceLabel": "R$ 89,99",
    "photo": "assets/img/mpf-before-midnight-for-her.webp",
    "photoSource": "assets/perfumes/MPF-before-midnight.jpg",
    "family": "Oriental Floral",
@@ -2014,7 +2098,11 @@
      "label": "Bimus Perfumes (distribuidor autorizado My Perfumes, Quênia)",
      "url": "https://mpfkenya.com/product/before-midnight/"
     }
-   ]
+   ],
+   "priceFrom": 180,
+   "priceFromLabel": "R$ 180,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-dominer",
@@ -2024,8 +2112,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 79.99,
+   "priceLabel": "R$ 79,99",
    "photo": "assets/img/mpf-dominer.webp",
    "photoSource": "assets/perfumes/MPF-dominer.jpg",
    "family": "Oriental Especiado",
@@ -2088,7 +2176,11 @@
    "notesSource": "https://www.fragrantica.com.br/perfume/MPF/Dominer-128891.html",
    "inspiredBy": null,
    "originalCreation": false,
-   "inspiredSources": []
+   "inspiredSources": [],
+   "priceFrom": 160,
+   "priceFromLabel": "R$ 160,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-prima-donna",
@@ -2098,8 +2190,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 126.9,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 94.99,
+   "priceLabel": "R$ 94,99",
    "photo": "assets/img/mpf-prima-donna.webp",
    "photoSource": "assets/perfumes/MPF-prima-donna.jpg",
    "family": "Floral Frutado",
@@ -2165,7 +2257,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/apa-de-parfum-mpf-prima-donna-femei/"
     }
-   ]
+   ],
+   "priceFrom": 190,
+   "priceFromLabel": "R$ 190,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-by-the-shore",
@@ -2243,7 +2339,11 @@
      "label": "Dynasty Decants",
      "url": "https://www.dynastydecants.com/products/bytheshorempf-fragrance_sample_decant-1"
     }
-   ]
+   ],
+   "priceFrom": 200,
+   "priceFromLabel": "R$ 200,00",
+   "proposed": true,
+   "waOnly": false
   },
   {
    "id": "mpf-heartstrings",
@@ -2310,7 +2410,11 @@
    "notesSource": "https://www.fragrantica.com.br/perfume/MPF/Heartstrings-128831.html",
    "inspiredBy": null,
    "originalCreation": false,
-   "inspiredSources": []
+   "inspiredSources": [],
+   "priceFrom": 220,
+   "priceFromLabel": "R$ 220,00",
+   "proposed": true,
+   "waOnly": false
   },
   {
    "id": "mpf-rose-bourbon",
@@ -2320,8 +2424,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-rose-bourbon.webp",
    "photoSource": "assets/perfumes/MPF-rose-bourbon.jpg",
    "family": "Oriental Floral",
@@ -2380,7 +2484,11 @@
    "inspiredBy": null,
    "originalCreation": false,
    "inspiredSources": [],
-   "inspiredNote": "Fontes conflitantes (Rose d’Arabie x Rouge Malachite)."
+   "inspiredNote": "Fontes conflitantes (Rose d’Arabie x Rouge Malachite).",
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-rouge-lights",
@@ -2390,8 +2498,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-rouge-lights.webp",
    "photoSource": "assets/perfumes/MPF-rouge-lights.jpg",
    "family": "Oriental Floral",
@@ -2456,7 +2564,11 @@
      "label": "Bimus Perfumes (distribuidor autorizado My Perfumes, Quênia)",
      "url": "https://mpfkenya.com/product/rouge-lights/"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-oud-memoir",
@@ -2466,8 +2578,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-oud-memoir.webp",
    "photoSource": "assets/perfumes/MPF-oud-memoir.jpg",
    "family": "Amadeirado Especiado",
@@ -2537,7 +2649,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/eau-de-parfum-mpf-oud-memoir-unisex-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-roseate-glow",
@@ -2547,8 +2663,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-roseate-glow.webp",
    "photoSource": "assets/perfumes/MPF-roseate-glow.jpg",
    "family": "Oriental Floral",
@@ -2619,7 +2735,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/eau-de-parfum-mpf-roseate-glow-unisex-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-fizzy-cherry",
@@ -2629,8 +2749,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-fizzy-cherry.webp",
    "photoSource": "assets/perfumes/MPF-fizzy-cherry.jpg",
    "family": "Oriental Floral",
@@ -2695,7 +2815,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/eau-de-parfum-mpf-fizzy-cherry-unisex-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-just-peach",
@@ -2704,9 +2828,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 150.0,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "shopPrice": 150,
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-just-peach.webp",
    "photoSource": "assets/perfumes/MPF-just-peach.jpg",
    "family": "Floral Frutado Gourmand",
@@ -2775,7 +2899,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/eau-de-parfum-mpf-just-peach-unisex-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-fabulicious",
@@ -2784,7 +2912,7 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 130.0,
+   "shopPrice": 130,
    "price": 109.99,
    "priceLabel": "R$ 109,99",
    "photo": "assets/img/mpf-fabulicious.webp",
@@ -2856,7 +2984,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/mpf-fabulicious"
     }
-   ]
+   ],
+   "priceFrom": 220,
+   "priceFromLabel": "R$ 220,00",
+   "proposed": true,
+   "waOnly": false
   },
   {
    "id": "mpf-leather-for-men",
@@ -2865,9 +2997,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 130.0,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "shopPrice": 130,
+   "price": 99.99,
+   "priceLabel": "R$ 99,99",
    "photo": "assets/img/mpf-leather-for-men.webp",
    "photoSource": "assets/perfumes/MPF-leather-for-men.jpg",
    "family": "Couro",
@@ -2930,7 +3062,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/eau-de-parfum-mpf-leather-for-men-unisex-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 200,
+   "priceFromLabel": "R$ 200,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-orchid-noir",
@@ -2940,8 +3076,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 136.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-orchid-noir.webp",
    "photoSource": "assets/perfumes/MPF-orchid-noir.jpg",
    "family": "Oriental",
@@ -3007,7 +3143,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/eau-de-parfum-mpf-orchid-noir-women-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-just-oud-wood",
@@ -3017,8 +3157,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 136.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-just-oud-wood.webp",
    "photoSource": "assets/perfumes/MPF-just-oud-wood.jpg",
    "family": "Oriental Amadeirado",
@@ -3085,7 +3225,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/mpf-just-oud-and-wood"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-ombre",
@@ -3095,8 +3239,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 136.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-ombre.webp",
    "photoSource": "assets/perfumes/MPF-ombre.jpg",
    "family": "Oriental Floral",
@@ -3161,7 +3305,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/apa-de-parfum-mpf-ombre-femei/"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-aquatic-allure",
@@ -3171,8 +3319,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 126.9,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/mpf-aquatic-allure.webp",
    "photoSource": "assets/perfumes/MPF-aquatic-allure.jpg",
    "family": "Cítrico Aromático",
@@ -3238,7 +3386,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/eau-de-parfum-mpf-aquatic-allure-unisex-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-rider-blue",
@@ -3248,8 +3400,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 105.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 79.99,
+   "priceLabel": "R$ 79,99",
    "photo": "assets/img/mpf-rider-blue.webp",
    "photoSource": "assets/perfumes/MPF-rider-blue.jpg",
    "family": "Aromático Verde",
@@ -3308,7 +3460,11 @@
    "notesSource": "https://www.fragrantica.com.br/perfume/MPF/Rider-Blue-128915.html",
    "inspiredBy": null,
    "originalCreation": false,
-   "inspiredSources": []
+   "inspiredSources": [],
+   "priceFrom": 160,
+   "priceFromLabel": "R$ 160,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-ashaa-amethyst",
@@ -3318,8 +3474,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 147.9,
-   "price": 149.99,
-   "priceLabel": "R$ 149,99",
+   "price": 144.99,
+   "priceLabel": "R$ 144,99",
    "photo": "assets/img/arabiyat-prestige-ashaa-amethyst.webp",
    "photoSource": "assets/perfumes/ARA-ashaa-amethyst.jpg",
    "family": null,
@@ -3389,7 +3545,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 65",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=65"
     }
-   ]
+   ],
+   "priceFrom": 290,
+   "priceFromLabel": "R$ 290,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-nyla",
@@ -3399,8 +3559,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 157.9,
-   "price": 149.99,
-   "priceLabel": "R$ 149,99",
+   "price": 89.99,
+   "priceLabel": "R$ 89,99",
    "photo": "assets/img/arabiyat-prestige-nyla.webp",
    "photoSource": "assets/perfumes/ARA-nyla.jpg",
    "family": null,
@@ -3466,7 +3626,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 59",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=59"
     }
-   ]
+   ],
+   "priceFrom": 180,
+   "priceFromLabel": "R$ 180,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-ashaa-blanc",
@@ -3476,8 +3640,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 147.9,
-   "price": 149.99,
-   "priceLabel": "R$ 149,99",
+   "price": 144.99,
+   "priceLabel": "R$ 144,99",
    "photo": "assets/img/arabiyat-prestige-ashaa-blanc.webp",
    "photoSource": "assets/perfumes/ARA-ashaa-blanc.jpg",
    "family": null,
@@ -3542,7 +3706,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 63",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=63"
     }
-   ]
+   ],
+   "priceFrom": 290,
+   "priceFromLabel": "R$ 290,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-ashaa-mauve",
@@ -3552,8 +3720,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 147.9,
-   "price": 149.99,
-   "priceLabel": "R$ 149,99",
+   "price": 144.99,
+   "priceLabel": "R$ 144,99",
    "photo": "assets/img/arabiyat-prestige-ashaa-mauve.webp",
    "photoSource": "assets/perfumes/ARA-ashaa-mauve.jpg",
    "family": "Floral Frutado",
@@ -3619,7 +3787,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 61",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=61"
     }
-   ]
+   ],
+   "priceFrom": 290,
+   "priceFromLabel": "R$ 290,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-ashaa-neroli",
@@ -3629,8 +3801,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 147.9,
-   "price": 149.99,
-   "priceLabel": "R$ 149,99",
+   "price": 144.99,
+   "priceLabel": "R$ 144,99",
    "photo": "assets/img/arabiyat-prestige-ashaa-neroli.webp",
    "photoSource": "assets/perfumes/ARA-ashaa-neroli.jpg",
    "family": "Cítrico Aromático",
@@ -3691,7 +3863,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 62",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=62"
     }
-   ]
+   ],
+   "priceFrom": 290,
+   "priceFromLabel": "R$ 290,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-ashaa-oud-noir",
@@ -3701,8 +3877,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 147.9,
-   "price": 149.99,
-   "priceLabel": "R$ 149,99",
+   "price": 144.99,
+   "priceLabel": "R$ 144,99",
    "photo": "assets/img/arabiyat-prestige-ashaa-oud-noir.webp",
    "photoSource": "assets/perfumes/ARA-ashaa-oud-noir.jpg",
    "family": null,
@@ -3771,7 +3947,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 64",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=64"
     }
-   ]
+   ],
+   "priceFrom": 290,
+   "priceFromLabel": "R$ 290,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-ayaan",
@@ -3798,7 +3978,11 @@
    "notesSource": null,
    "inspiredBy": null,
    "originalCreation": false,
-   "inspiredSources": []
+   "inspiredSources": [],
+   "priceFrom": 160,
+   "priceFromLabel": "R$ 160,00",
+   "proposed": true,
+   "waOnly": false
   },
   {
    "id": "arabiyat-prestige-qissat-al-najah",
@@ -3869,7 +4053,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 42",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=42"
     }
-   ]
+   ],
+   "priceFrom": 440,
+   "priceFromLabel": "R$ 440,00",
+   "proposed": true,
+   "waOnly": false
   },
   {
    "id": "arabiyat-prestige-la-di-da-for-her",
@@ -3879,8 +4067,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 241.9,
-   "price": 209.99,
-   "priceLabel": "R$ 209,99",
+   "price": 194.99,
+   "priceLabel": "R$ 194,99",
    "photo": "assets/img/arabiyat-prestige-la-di-da-for-her.webp",
    "photoSource": "assets/perfumes/ARA-la-di-da.jpg",
    "family": "Floral Frutado Gourmand",
@@ -3950,7 +4138,11 @@
      "label": "Dubai Collection Perfumery",
      "url": "https://dubaicollection.eu/product/eau-de-parfum-arabiyat-prestige-la-di-da-for-her-women-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 390,
+   "priceFromLabel": "R$ 390,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-hypnotic-amber",
@@ -4028,7 +4220,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 73",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=73"
     }
-   ]
+   ],
+   "priceFrom": 520,
+   "priceFromLabel": "R$ 520,00",
+   "proposed": true,
+   "waOnly": false
   },
   {
    "id": "arabiyat-prestige-raees-luxury-edition",
@@ -4038,8 +4234,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 178.9,
-   "price": 160.0,
-   "priceLabel": "R$ 160,00",
+   "price": 164.99,
+   "priceLabel": "R$ 164,99",
    "photo": "assets/img/arabiyat-prestige-raees-luxury-edition.webp",
    "photoSource": "assets/perfumes/ARA-raees.jpg",
    "family": "Amadeirado Aquático",
@@ -4109,7 +4305,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/arabiyat-prestige-raees-luxury-edition"
     }
-   ]
+   ],
+   "priceFrom": 330,
+   "priceFromLabel": "R$ 330,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-habib-azul",
@@ -4119,8 +4319,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 252.9,
-   "price": 229.99,
-   "priceLabel": "R$ 229,99",
+   "price": 219.99,
+   "priceLabel": "R$ 219,99",
    "photo": "assets/img/arabiyat-prestige-habib-azul.webp",
    "photoSource": "assets/perfumes/ARA-habib-azul.jpg",
    "family": "Oriental Fougère",
@@ -4190,7 +4390,11 @@
      "label": "Arabian Scents",
      "url": "https://arabianscents.net/product/eau-de-parfum-arabiyat-prestige-habib-men-100-ml/"
     }
-   ]
+   ],
+   "priceFrom": 440,
+   "priceFromLabel": "R$ 440,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-habiba-rosa",
@@ -4200,8 +4404,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 252.9,
-   "price": 229.99,
-   "priceLabel": "R$ 229,99",
+   "price": 209.99,
+   "priceLabel": "R$ 209,99",
    "photo": "assets/img/arabiyat-prestige-habiba-rosa.webp",
    "photoSource": "assets/perfumes/ARA-habiba-rosa.jpg",
    "family": "Floral Frutado Gourmand",
@@ -4271,7 +4475,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/arabiyat-prestige-habiba"
     }
-   ]
+   ],
+   "priceFrom": 420,
+   "priceFromLabel": "R$ 420,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-rihla",
@@ -4281,10 +4489,10 @@
    "ml": 80,
    "soldOut": false,
    "shopPrice": 168.9,
-   "price": 189.99,
-   "priceFrom": 185.79,
-   "priceFromLabel": "R$ 185,79",
-   "priceLabel": "R$ 189,99",
+   "price": 169.99,
+   "priceFrom": 340,
+   "priceFromLabel": "R$ 340,00",
+   "priceLabel": "R$ 169,99",
    "photo": "assets/img/arabiyat-prestige-rihla.webp",
    "photoSource": "assets/perfumes/ARA-rihla.jpg",
    "family": null,
@@ -4349,7 +4557,9 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 84",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=84"
     }
-   ]
+   ],
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-nisma",
@@ -4359,10 +4569,10 @@
    "ml": 80,
    "soldOut": false,
    "shopPrice": 168.9,
-   "price": 189.99,
-   "priceFrom": 185.79,
-   "priceFromLabel": "R$ 185,79",
-   "priceLabel": "R$ 189,99",
+   "price": 164.99,
+   "priceFrom": 330,
+   "priceFromLabel": "R$ 330,00",
+   "priceLabel": "R$ 164,99",
    "photo": "assets/img/arabiyat-prestige-nisma.webp",
    "photoSource": "assets/perfumes/ARA-nisma.jpg",
    "family": null,
@@ -4434,7 +4644,9 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/arabiyat-prestige-nisma"
     }
-   ]
+   ],
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-portrait",
@@ -4444,8 +4656,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 178.9,
-   "price": 189.99,
-   "priceLabel": "R$ 189,99",
+   "price": 164.99,
+   "priceLabel": "R$ 164,99",
    "photo": "assets/img/arabiyat-prestige-portrait.webp",
    "photoSource": "assets/perfumes/ARA-portrait.jpg",
    "family": null,
@@ -4511,7 +4723,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/arabiyat-prestige-portrait"
     }
-   ]
+   ],
+   "priceFrom": 330,
+   "priceFromLabel": "R$ 330,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-portrait-azure",
@@ -4521,8 +4737,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 178.9,
-   "price": 189.99,
-   "priceLabel": "R$ 189,99",
+   "price": 164.99,
+   "priceLabel": "R$ 164,99",
    "photo": "assets/img/arabiyat-prestige-portrait-azure.webp",
    "photoSource": "assets/perfumes/ARA-portrait-azure.jpg",
    "family": "Amadeirado Especiado",
@@ -4587,7 +4803,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 77",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=77"
     }
-   ]
+   ],
+   "priceFrom": 330,
+   "priceFromLabel": "R$ 330,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-swar-venin",
@@ -4673,8 +4893,8 @@
    "ml": 100,
    "soldOut": true,
    "shopPrice": 136.9,
-   "price": 129.99,
-   "priceLabel": "R$ 129,99",
+   "price": 114.99,
+   "priceLabel": "R$ 114,99",
    "photo": "assets/img/arabiyat-prestige-cranberry-musk.webp",
    "photoSource": "assets/perfumes/ARA-cranberry-musk.jpg",
    "family": null,
@@ -4738,7 +4958,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 28",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=28"
     }
-   ]
+   ],
+   "priceFrom": 230,
+   "priceFromLabel": "R$ 230,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-raspberry-ripple",
@@ -4748,8 +4972,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 241.9,
-   "price": 229.99,
-   "priceLabel": "R$ 229,99",
+   "price": 219.99,
+   "priceLabel": "R$ 219,99",
    "photo": "assets/img/arabiyat-prestige-raspberry-ripple.webp",
    "photoSource": "assets/perfumes/ARA-raspberry-ripple.jpg",
    "family": "Floral Frutado Gourmand",
@@ -4820,7 +5044,11 @@
      "label": "Arabiyat Prestige US",
      "url": "https://arabiyatprestigeus.com/products/arabiyat-prestige-gelato-raspberry-ripple-eau-de-parfum-3-4fl-oz-for-women"
     }
-   ]
+   ],
+   "priceFrom": 440,
+   "priceFromLabel": "R$ 440,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-black-currant-lolly",
@@ -4830,8 +5058,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 241.9,
-   "price": 229.99,
-   "priceLabel": "R$ 229,99",
+   "price": 219.99,
+   "priceLabel": "R$ 219,99",
    "photo": "assets/img/arabiyat-prestige-black-currant-lolly.webp",
    "photoSource": "assets/perfumes/ARA-black-currant-lolly.jpg",
    "family": "Floral Frutado",
@@ -4896,7 +5124,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 47",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=47"
     }
-   ]
+   ],
+   "priceFrom": 440,
+   "priceFromLabel": "R$ 440,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-ramad",
@@ -4906,8 +5138,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 252.9,
-   "price": 239.99,
-   "priceLabel": "R$ 239,99",
+   "price": 174.99,
+   "priceLabel": "R$ 174,99",
    "photo": "assets/img/arabiyat-prestige-ramad.webp",
    "photoSource": "assets/perfumes/ARA-ramad.jpg",
    "family": "Aromático Especiado",
@@ -4980,7 +5212,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/arabiyat-prestige-ramad"
     }
-   ]
+   ],
+   "priceFrom": 350,
+   "priceFromLabel": "R$ 350,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-marwa",
@@ -5072,8 +5308,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 252.9,
-   "price": 239.99,
-   "priceLabel": "R$ 239,99",
+   "price": 194.99,
+   "priceLabel": "R$ 194,99",
    "photo": "assets/img/arabiyat-prestige-mahd-al-dhahab.webp",
    "photoSource": "assets/perfumes/ARA-mahd-al-dhahab.jpg",
    "family": "Oriental Amadeirado",
@@ -5143,7 +5379,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/arabiyat-prestige-mahd-al-dhahab"
     }
-   ]
+   ],
+   "priceFrom": 390,
+   "priceFromLabel": "R$ 390,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-rumiel",
@@ -5153,8 +5393,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 241.9,
-   "price": 239.99,
-   "priceLabel": "R$ 239,99",
+   "price": 199.99,
+   "priceLabel": "R$ 199,99",
    "photo": "assets/img/arabiyat-prestige-rumiel.webp",
    "photoSource": "assets/perfumes/ARA-rumiel.jpg",
    "family": "Oriental Baunilha",
@@ -5225,7 +5465,11 @@
      "label": "Mercurias",
      "url": "https://mercurias.com/products/arabiyat-prestige-rumiel-100ml-eau-de-parfum-btso-nanatopia"
     }
-   ]
+   ],
+   "priceFrom": 400,
+   "priceFromLabel": "R$ 400,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-uhud",
@@ -5235,8 +5479,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 252.9,
-   "price": 239.99,
-   "priceLabel": "R$ 239,99",
+   "price": 194.99,
+   "priceLabel": "R$ 194,99",
    "photo": "assets/img/arabiyat-prestige-uhud.webp",
    "photoSource": "assets/perfumes/ARA-uhud.jpg",
    "family": "Oriental Baunilha",
@@ -5306,7 +5550,11 @@
      "label": "Zaoud",
      "url": "https://zaoud.it/uk/products/arabiyat-prestige-uhud"
     }
-   ]
+   ],
+   "priceFrom": 390,
+   "priceFromLabel": "R$ 390,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-bahiya-garnet",
@@ -5316,8 +5564,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 241.9,
-   "price": 240.0,
-   "priceLabel": "R$ 240,00",
+   "price": 194.99,
+   "priceLabel": "R$ 194,99",
    "photo": "assets/img/arabiyat-prestige-bahiya-garnet.webp",
    "photoSource": "assets/perfumes/ARA-bahiya-garnet.jpg",
    "family": "Floral Frutado",
@@ -5391,7 +5639,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/arabiyat-prestige-bahiya-garnet"
     }
-   ]
+   ],
+   "priceFrom": 390,
+   "priceFromLabel": "R$ 390,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-kohl-luminous",
@@ -5401,8 +5653,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 252.9,
-   "price": 239.99,
-   "priceLabel": "R$ 239,99",
+   "price": 194.99,
+   "priceLabel": "R$ 194,99",
    "photo": "assets/img/arabiyat-prestige-kohl-luminous.webp",
    "photoSource": "assets/perfumes/ARA-kohl-luminous.jpg",
    "family": "Floral Frutado Gourmand",
@@ -5470,7 +5722,11 @@
      "label": "Arabiyat Prestige — catálogo oficial de inspirações (PDF da marca), pág. 32",
      "ref": "project-1/arabiyat-official/inspiration/Arabiyat-Prestige-inspiration-final.pdf#page=32"
     }
-   ]
+   ],
+   "priceFrom": 390,
+   "priceFromLabel": "R$ 390,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "arabiyat-prestige-noire",
@@ -5480,8 +5736,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 231.9,
-   "price": 239.99,
-   "priceLabel": "R$ 239,99",
+   "price": 204.99,
+   "priceLabel": "R$ 204,99",
    "photo": "assets/img/arabiyat-prestige-noire.webp",
    "photoSource": "assets/perfumes/ARA-noire.jpg",
    "family": "Oriental Fougère",
@@ -5551,7 +5807,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/arabiyat-prestige-noire"
     }
-   ]
+   ],
+   "priceFrom": 410,
+   "priceFromLabel": "R$ 410,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "al-wataniah-atter-al-wesal-gold",
@@ -5561,8 +5821,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 194.9,
-   "price": 160.0,
-   "priceLabel": "R$ 160,00",
+   "price": 154.99,
+   "priceLabel": "R$ 154,99",
    "photo": "assets/img/al-wataniah-atter-al-wesal-gold.webp",
    "photoSource": "assets/perfumes/WAT-atter-al-wesal-gold.jpg",
    "family": "Oriental Especiado",
@@ -5629,7 +5889,11 @@
      "label": "Scentido",
      "url": "https://www.scentido.com.br/perfumes-contratipos/al-wataniah-attar-al-wesal-gold"
     }
-   ]
+   ],
+   "priceFrom": 310,
+   "priceFromLabel": "R$ 310,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "rayhaan-pacific-tropical-vibe",
@@ -5639,8 +5903,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 199.9,
-   "price": 179.99,
-   "priceLabel": "R$ 179,99",
+   "price": 174.99,
+   "priceLabel": "R$ 174,99",
    "photo": "assets/img/rayhaan-pacific-tropical-vibe.webp",
    "photoSource": "assets/perfumes/RAY-pacific-tropical.jpg",
    "family": null,
@@ -5712,7 +5976,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/rayhaan-tropical-vibe"
     }
-   ]
+   ],
+   "priceFrom": 350,
+   "priceFromLabel": "R$ 350,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ibraheem-al-qurashi-arabian-tobacco",
@@ -5722,8 +5990,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 231.9,
-   "price": 200.0,
-   "priceLabel": "R$ 200,00",
+   "price": 204.99,
+   "priceLabel": "R$ 204,99",
    "photo": "assets/img/ibraheem-al-qurashi-arabian-tobacco.webp",
    "photoSource": "assets/perfumes/IBQ-arabian-tobacco.jpg",
    "family": "Oriental",
@@ -5790,7 +6058,11 @@
      "label": "Al Amira (guia IBRAQ Tobacco)",
      "url": "https://alamira.co.uk/blogs/news/ibraq-tobacco-collection-explained"
     }
-   ]
+   ],
+   "priceFrom": 410,
+   "priceFromLabel": "R$ 410,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ibraheem-al-qurashi-spanish-tobacco",
@@ -5800,8 +6072,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 178.9,
-   "price": 150.0,
-   "priceLabel": "R$ 150,00",
+   "price": 154.99,
+   "priceLabel": "R$ 154,99",
    "photo": "assets/img/ibraheem-al-qurashi-spanish-tobacco.webp",
    "photoSource": "assets/perfumes/IBQ-spanish-tobacco.jpg",
    "family": "Oriental Amadeirado",
@@ -5870,7 +6142,11 @@
      "label": "FragLion",
      "url": "https://fraglion.com/fragrance/ibraheem-alqurashi-spanish-tobacco"
     }
-   ]
+   ],
+   "priceFrom": 310,
+   "priceFromLabel": "R$ 310,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ibraheem-al-qurashi-cuban-tobacco",
@@ -5880,7 +6156,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 199.9,
-   "price": 150.0,
+   "price": 150,
    "priceLabel": "R$ 150,00",
    "photo": "assets/img/ibraheem-al-qurashi-cuban-tobacco.webp",
    "photoSource": "assets/perfumes/IBQ-cuban-tobacco.jpg",
@@ -5954,8 +6230,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 199.9,
-   "price": 150.0,
-   "priceLabel": "R$ 150,00",
+   "price": 154.99,
+   "priceLabel": "R$ 154,99",
    "photo": "assets/img/ibraheem-al-qurashi-dominic-tobacco.webp",
    "photoSource": "assets/perfumes/IBQ-dominic-tobacco.jpg",
    "family": "Amadeirado Aromático",
@@ -6019,7 +6295,11 @@
      "label": "Al Amira (guia IBRAQ Tobacco)",
      "url": "https://alamira.co.uk/blogs/news/ibraq-tobacco-collection-explained"
     }
-   ]
+   ],
+   "priceFrom": 310,
+   "priceFromLabel": "R$ 310,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ibraheem-al-qurashi-jamaican-tobacco",
@@ -6029,8 +6309,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 199.9,
-   "price": 150.0,
-   "priceLabel": "R$ 150,00",
+   "price": 154.99,
+   "priceLabel": "R$ 154,99",
    "photo": "assets/img/ibraheem-al-qurashi-jamaican-tobacco.webp",
    "photoSource": "assets/perfumes/IBQ-jamaican-tobacco.jpg",
    "family": "Oriental Amadeirado",
@@ -6093,7 +6373,11 @@
      "label": "Al Amira (guia IBRAQ Tobacco)",
      "url": "https://alamira.co.uk/blogs/news/ibraq-tobacco-collection-explained"
     }
-   ]
+   ],
+   "priceFrom": 310,
+   "priceFromLabel": "R$ 310,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ibraheem-al-qurashi-mexican-tobacco",
@@ -6103,8 +6387,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 199.9,
-   "price": 150.0,
-   "priceLabel": "R$ 150,00",
+   "price": 154.99,
+   "priceLabel": "R$ 154,99",
    "photo": "assets/img/ibraheem-al-qurashi-mexican-tobacco.webp",
    "photoSource": "assets/perfumes/IBQ-mexican-tobacco.jpg",
    "family": "Oriental",
@@ -6167,7 +6451,11 @@
      "label": "Al Amira (guia IBRAQ Tobacco)",
      "url": "https://alamira.co.uk/blogs/news/ibraq-tobacco-collection-explained"
     }
-   ]
+   ],
+   "priceFrom": 310,
+   "priceFromLabel": "R$ 310,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "ibraheem-al-qurashi-balas-rose",
@@ -6177,8 +6465,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 168.9,
-   "price": 100.0,
-   "priceLabel": "R$ 100,00",
+   "price": 104.99,
+   "priceLabel": "R$ 104,99",
    "photo": "assets/img/ibraheem-al-qurashi-balas-rose.webp",
    "photoSource": "assets/perfumes/IBQ-balas-rose.jpg",
    "family": "Oriental Floral",
@@ -6237,7 +6525,11 @@
    "notesSource": "https://www.fragrantica.com.br/perfume/Ibraheem-AlQurashi/Balas-Rose-100567.html",
    "inspiredBy": null,
    "originalCreation": false,
-   "inspiredSources": []
+   "inspiredSources": [],
+   "priceFrom": 210,
+   "priceFromLabel": "R$ 210,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-poudre",
@@ -6329,8 +6621,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 99.99,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "price": 74.99,
+   "priceLabel": "R$ 74,99",
    "photo": "assets/img/mpf-highway-parfum-v2.webp",
    "photoSource": "https://http2.mlstatic.com/D_NQ_NP_640869-MLB109271746296_042026-O.webp (Mercado Livre MLBU3880884989, escolhida por MB)",
    "family": null,
@@ -6348,7 +6640,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 150,
+   "priceFromLabel": "R$ 150,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "mpf-vanilla-tobacco",
@@ -6520,8 +6816,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": 99.99,
-   "price": 109.99,
-   "priceLabel": "R$ 109,99",
+   "price": 94.99,
+   "priceLabel": "R$ 94,99",
    "photo": "assets/img/mpf-murano-crystal.webp",
    "photoSource": "https://eg.myperfumes.ae/products/murano-crystal-edp",
    "family": null,
@@ -6551,7 +6847,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 190,
+   "priceFromLabel": "R$ 190,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "paris-corner-khair-pistachio",
@@ -6560,7 +6860,7 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 85.0,
+   "shopPrice": 85,
    "price": 99.99,
    "priceLabel": "R$ 99,99",
    "photo": "assets/img/paris-corner-khair-pistachio.webp?v=20261027",
@@ -6612,9 +6912,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 185.0,
-   "price": 194.99,
-   "priceLabel": "R$ 194,99",
+   "shopPrice": 185,
+   "price": 159.99,
+   "priceLabel": "R$ 159,99",
    "photo": "assets/img/paris-corner-eshal-vanilla.webp?v=20261027",
    "photoSource": "https://www.pariscornerperfumes.com/products/eshal-vanilla",
    "family": null,
@@ -6641,7 +6941,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 320,
+   "priceFromLabel": "R$ 320,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "paris-corner-dulzura",
@@ -6650,9 +6954,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 135.0,
-   "price": 144.99,
-   "priceLabel": "R$ 144,99",
+   "shopPrice": 135,
+   "price": 119.99,
+   "priceLabel": "R$ 119,99",
    "photo": "assets/img/paris-corner-dulzura.webp?v=20261027",
    "photoSource": "https://www.pariscornerperfumes.com/products/dulzura",
    "family": null,
@@ -6680,7 +6984,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 240,
+   "priceFromLabel": "R$ 240,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "paris-corner-december-vanilla",
@@ -6689,9 +6997,9 @@
    "size": "80 ml",
    "ml": 80,
    "soldOut": false,
-   "shopPrice": 100.0,
-   "price": 99.99,
-   "priceLabel": "R$ 99,99",
+   "shopPrice": 100,
+   "price": 89.99,
+   "priceLabel": "R$ 89,99",
    "photo": "assets/img/paris-corner-december-vanilla.webp?v=20261027",
    "photoSource": "https://www.pariscornerperfumes.com/products/december-vanilla",
    "family": null,
@@ -6727,7 +7035,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 180,
+   "priceFromLabel": "R$ 180,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "paris-corner-azm",
@@ -6736,9 +7048,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 185.0,
-   "price": 194.99,
-   "priceLabel": "R$ 194,99",
+   "shopPrice": 185,
+   "price": 149.99,
+   "priceLabel": "R$ 149,99",
    "photo": "assets/img/paris-corner-azm.webp?v=20261027",
    "photoSource": "https://www.pariscornerperfumes.com/products/azm",
    "family": null,
@@ -6769,7 +7081,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 300,
+   "priceFromLabel": "R$ 300,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "paris-corner-marshmallow-blush",
@@ -6778,9 +7094,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 200.0,
-   "price": 199.99,
-   "priceLabel": "R$ 199,99",
+   "shopPrice": 200,
+   "price": 174.99,
+   "priceLabel": "R$ 174,99",
    "photo": "assets/img/paris-corner-marshmallow-blush.webp?v=20261027",
    "photoSource": "https://www.pariscornerperfumes.com/products/marshmallow-blush",
    "family": null,
@@ -6810,7 +7126,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 350,
+   "priceFromLabel": "R$ 350,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "french-avenue-azzure-aoud",
@@ -6819,9 +7139,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 175.0,
-   "price": 194.99,
-   "priceLabel": "R$ 194,99",
+   "shopPrice": 175,
+   "price": 139.99,
+   "priceLabel": "R$ 139,99",
    "photo": "assets/img/french-avenue-azzure-aoud.webp?v=20261027",
    "photoSource": "https://frenchavenue.com/products/azzure-aoud",
    "family": null,
@@ -6854,7 +7174,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 280,
+   "priceFromLabel": "R$ 280,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "french-avenue-aether-extrait",
@@ -6863,9 +7187,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 195.0,
-   "price": 219.99,
-   "priceLabel": "R$ 219,99",
+   "shopPrice": 195,
+   "price": 174.99,
+   "priceLabel": "R$ 174,99",
    "photo": "assets/img/french-avenue-aether-extrait.webp?v=20261027",
    "photoSource": "https://frenchavenue.com/products/aether",
    "family": null,
@@ -6896,7 +7220,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 350,
+   "priceFromLabel": "R$ 350,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "french-avenue-atlantis-extrait",
@@ -6905,9 +7233,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 245.0,
-   "price": 274.99,
-   "priceLabel": "R$ 274,99",
+   "shopPrice": 245,
+   "price": 199.99,
+   "priceLabel": "R$ 199,99",
    "photo": "assets/img/french-avenue-atlantis-extrait.webp?v=20261027",
    "photoSource": "https://frenchavenue.com/products/atlantis-extrait",
    "family": null,
@@ -6934,7 +7262,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 400,
+   "priceFromLabel": "R$ 400,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "french-avenue-vulcan-feu",
@@ -6943,9 +7275,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 255.0,
-   "price": 254.99,
-   "priceLabel": "R$ 254,99",
+   "shopPrice": 255,
+   "price": 219.99,
+   "priceLabel": "R$ 219,99",
    "photo": "assets/img/french-avenue-vulcan-feu.webp?v=20261027",
    "photoSource": "https://frenchavenue.com/products/vulcan-feu",
    "family": null,
@@ -6978,7 +7310,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 440,
+   "priceFromLabel": "R$ 440,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "french-avenue-royal-blend",
@@ -6987,9 +7323,9 @@
    "size": "100 ml",
    "ml": 100,
    "soldOut": false,
-   "shopPrice": 190.0,
-   "price": 209.99,
-   "priceLabel": "R$ 209,99",
+   "shopPrice": 190,
+   "price": 154.99,
+   "priceLabel": "R$ 154,99",
    "photo": "assets/img/french-avenue-royal-blend.webp?v=20261027",
    "photoSource": "https://frenchavenue.com/products/royal-blend",
    "family": null,
@@ -7017,7 +7353,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 310,
+   "priceFromLabel": "R$ 310,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "french-avenue-spectre-wraith",
@@ -7026,9 +7366,9 @@
    "size": "80 ml",
    "ml": 80,
    "soldOut": false,
-   "shopPrice": 185.0,
-   "price": 209.99,
-   "priceLabel": "R$ 209,99",
+   "shopPrice": 185,
+   "price": 149.99,
+   "priceLabel": "R$ 149,99",
    "photo": "assets/img/french-avenue-spectre-wraith.webp?v=20261027",
    "photoSource": "https://frenchavenue.com/products/spectre-wraith",
    "family": null,
@@ -7056,7 +7396,11 @@
    "originalCreation": false,
    "inspiredSources": [],
    "inspiredNote": null,
-   "new": true
+   "new": true,
+   "priceFrom": 300,
+   "priceFromLabel": "R$ 300,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "al-wataniah-sabah-al-ward-sugar",
@@ -7133,7 +7477,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": null,
-   "price": 160.0,
+   "price": 160,
    "priceLabel": "R$ 160,00",
    "photo": "assets/img/placeholder-produto.webp",
    "family": null,
@@ -7155,7 +7499,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": null,
-   "price": 100.0,
+   "price": 100,
    "priceLabel": "R$ 100,00",
    "photo": "assets/img/ibrahim-al-qurashi-amethyst-khozam-100-ml.webp",
    "family": null,
@@ -7177,7 +7521,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": null,
-   "price": 580.0,
+   "price": 580,
    "priceLabel": "R$ 580,00",
    "photo": "assets/img/placeholder-produto.webp",
    "family": null,
@@ -7287,7 +7631,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": null,
-   "price": 100.0,
+   "price": 100,
    "priceLabel": "R$ 100,00",
    "photo": "assets/img/ibrahim-al-qurashi-citrine-amber-100-ml.webp",
    "family": null,
@@ -7309,7 +7653,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": null,
-   "price": 250.0,
+   "price": 250,
    "priceLabel": "R$ 250,00",
    "photo": "assets/img/al-haramain-gold-edition-100-ml.webp",
    "family": null,
@@ -7815,7 +8159,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": null,
-   "price": 100.0,
+   "price": 100,
    "priceLabel": "R$ 100,00",
    "photo": "assets/img/ibrahim-al-qurashi-sapphire-leather-100-ml.webp",
    "family": null,
@@ -7991,8 +8335,8 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": null,
-   "price": 249.99,
-   "priceLabel": "R$ 249,99",
+   "price": 199.99,
+   "priceLabel": "R$ 199,99",
    "photo": "assets/img/french-avenue-liquid-brun-100-ml.webp",
    "family": null,
    "familyGroup": null,
@@ -8002,7 +8346,11 @@
     "heart": [],
     "base": []
    },
-   "accords": []
+   "accords": [],
+   "priceFrom": 400,
+   "priceFromLabel": "R$ 400,00",
+   "proposed": true,
+   "waOnly": true
   },
   {
    "id": "lattafa-badee-al-oud-noble-body-mist-250-ml",
@@ -8013,7 +8361,7 @@
    "ml": 250,
    "soldOut": false,
    "shopPrice": null,
-   "price": 55.0,
+   "price": 55,
    "priceLabel": "R$ 55,00",
    "photo": "assets/img/lattafa-badee-al-oud-noble-body-mist-250-ml.webp",
    "family": null,
@@ -8035,7 +8383,7 @@
    "ml": 250,
    "soldOut": false,
    "shopPrice": null,
-   "price": 60.0,
+   "price": 60,
    "priceLabel": "R$ 60,00",
    "photo": "assets/img/lattafa-yara-body-mist-250-ml.webp",
    "family": null,
@@ -8057,7 +8405,7 @@
    "ml": 250,
    "soldOut": false,
    "shopPrice": null,
-   "price": 55.0,
+   "price": 55,
    "priceLabel": "R$ 55,00",
    "photo": "assets/img/lattafa-teriaq-body-mist-250-ml.webp",
    "family": null,
@@ -8079,7 +8427,7 @@
    "ml": 250,
    "soldOut": false,
    "shopPrice": null,
-   "price": 60.0,
+   "price": 60,
    "priceLabel": "R$ 60,00",
    "photo": "assets/img/lattafa-mayar-cherry-body-mist-250-ml.webp",
    "family": null,
@@ -8101,7 +8449,7 @@
    "ml": 250,
    "soldOut": false,
    "shopPrice": null,
-   "price": 55.0,
+   "price": 55,
    "priceLabel": "R$ 55,00",
    "photo": "assets/img/lattafa-layaan-body-mist-250-ml.webp",
    "family": null,
@@ -8123,7 +8471,7 @@
    "ml": 250,
    "soldOut": false,
    "shopPrice": null,
-   "price": 60.0,
+   "price": 60,
    "priceLabel": "R$ 60,00",
    "photo": "assets/img/lattafa-mayar-natural-body-mist-250-ml.webp",
    "family": null,
@@ -8145,7 +8493,7 @@
    "ml": 250,
    "soldOut": false,
    "shopPrice": null,
-   "price": 60.0,
+   "price": 60,
    "priceLabel": "R$ 60,00",
    "photo": "assets/img/placeholder-produto.webp",
    "family": null,
@@ -8167,7 +8515,7 @@
    "ml": 250,
    "soldOut": false,
    "shopPrice": null,
-   "price": 55.0,
+   "price": 55,
    "priceLabel": "R$ 55,00",
    "photo": "assets/img/lattafa-haya-body-mist-250-ml.webp",
    "family": null,
@@ -8189,7 +8537,7 @@
    "ml": 100,
    "soldOut": false,
    "shopPrice": null,
-   "price": 85.0,
+   "price": 85,
    "priceLabel": "R$ 85,00",
    "photo": "assets/img/placeholder-produto.webp",
    "family": null,
