@@ -301,6 +301,8 @@ if (!MOCK && !CONFIGURED) {
     async notas() { return ok(await sb.from("v_notas").select("*").order("created_at", { ascending: false }).order("nota_id", { ascending: false }).limit(300)); },
     async caixaSaldos() { return ok(await sb.from("v_caixa_saldo").select("*").order("caixa_id")); },
     async caixaExtrato(d) { return ok(await sb.from("v_caixa_extrato").select("*").eq("data", d).order("created_at")); },
+    async caixaExtratoPeriodo(de, ate) { if (me.role !== "admin") throw new Error("Somente admin"); return ok(await sb.from("v_caixa_extrato").select("*").gte("data", de).lte("data", ate).order("data").order("created_at").limit(10000)); },
+    async cxEspPeriodo(de, ate) { if (me.role !== "admin") throw new Error("Somente admin"); const fim = new Date(Date.UTC(+ate.slice(0, 4), +ate.slice(5, 7) - 1, +ate.slice(8, 10) + 1)).toISOString().slice(0, 10); return ok(await sb.from("v_caixa_especial").select("*").gte("created_at", de + "T00:00:00-03:00").lt("created_at", fim + "T00:00:00-03:00").order("id").limit(5000)); },
     async caixaResumo(c, d) { return ok(await sb.rpc("caixa_resumo", { p_caixa: c, p_data: d })); },
     async caixaHxDia(d) { return ok(await sb.rpc("caixa_hx_dia", { p_data: d })); },
     async hxConfig() { return ok(await sb.rpc("caixa_hx_config")); },
@@ -875,6 +877,8 @@ if (!MOCK && !CONFIGURED) {
       if (role === "admin") itens.forEach(i => lucro[i.nota_id] = (lucro[i.nota_id] || 0) + i.total - i.qtd * i.custo); const fre = {}, cn = {}; ns.forEach(n => { if (n.frete > 0) fre[n.nota_id] = n.frete; if (n.caxinha_natal > 0) cn[n.nota_id] = n.caxinha_natal; });
       return { itens, pags: PG.filter(g => ids.includes(g.nota_id)), lucro, fre, cn, heads: ns.filter(n => (n.frete > 0 || n.caxinha_natal > 0) && !IT.some(i => i.nota_id === n.nota_id)) }; },
     async caixaSaldos() { await ready; needCx(); return CX.filter(c => !c.somente_admin || role === "admin").map(c => ({ ...c, saldo: role === "admin" || c.caixa_id === 1 ? saldo(c.caixa_id) : null, saldo_visivel_financeiro: c.caixa_id === 1, movimento_hoje: MV.filter(m => m.caixa_id === c.caixa_id && m.data === today()).reduce((a, m) => a + sv(m), 0), movimento_visivel: MV.filter(m => m.caixa_id === c.caixa_id && finVê(m)).reduce((a, m) => a + sv(m), 0) })); },
+    async caixaExtratoPeriodo(de, ate) { needCx(); if (role !== "admin") throw new Error("Somente admin"); const fx = qs.has("cxfix") && globalThis.BAGDA_CAIXA_FILTRO ? BAGDA_CAIXA_FILTRO.previewFixtures() : []; return MV.filter(m => m.data >= de && m.data <= ate).map(m => { const n = N.find(x => x.nota_id === m.nota_id); return { ...m, caixa: (CX.find(c => c.caixa_id === m.caixa_id) || {}).nome, valor_assinado: sv(m), estornado: MV.some(x => x.estorno_de === m.id), cliente: (n && n.cliente) || m.cliente || null }; }).concat(fx.filter(m => m.data >= de && m.data <= ate)); },
+    async cxEspPeriodo(de, ate) { const D = globalThis.BAGDA_CAIXA_FILTRO; return (await api.cxEsp()).filter(m => { const d = D.diaSP(m.created_at); return d >= de && d <= ate; }); },
     async caixaExtrato(d) { needCx(); return MV.filter(m => m.data === d && finVê(m)).sort((a, b) => a.created_at.localeCompare(b.created_at)).map(m => { const n = N.find(x => x.nota_id === m.nota_id); return { ...m, valor_assinado: sv(m), estornado: MV.some(x => x.estorno_de === m.id), cliente: (n && n.cliente) || m.cliente || null }; }); },
     async caixaResumo(c, d) { needCx(); if (role !== "admin" && role !== "financeiro") throw new Error("Sem permissão");
       if (!finCaixa(c) || (role !== "admin" && !finVê({ caixa_id: c, data: d }))) throw new Error("Extrato fora da janela do financeiro");
@@ -2222,11 +2226,13 @@ async function viewCaixa(d = today()) {
   <button class="btn" id="fl-ok">Liberar</button></form>
   <table class="stk" id="fl-tab"><tr><th>Caixa</th><th>Janela</th><th>Validade</th><th></th></tr>
   ${LIB.filter(g => g.ativo !== false).map(g => `<tr><td>${esc(g.caixa || "Todos os caixas do financeiro")}</td><td>${g.desde ? "desde " + esc(String(g.desde).split("-").reverse().join("/")) : "últimos " + esc(g.dias) + " dias"}</td><td>${g.expira_em ? esc(String(g.expira_em).slice(0, 10).split("-").reverse().join("/")) : "até revogar"}</td><td><button type="button" class="btn ghost fl-rev" data-i="${g.id}">Revogar</button></td></tr>`).join("") || '<tr><td colspan="4" class="muted">Nenhuma liberação ativa. Revogar aparece em cada linha depois de liberar.</td></tr>'}</table></div>` : ""}
+  ${adm ? '<div class="card cxf" id="cxf-host"></div>' : ""}
   <div class="card"><h2>Extrato do dia ${esc(d.split("-").reverse().join("/"))}</h2>${!adm && !hoje && SA.some(c => /HX/.test(c.nome || "")) ? '<p class="muted">Caixa HX: dias anteriores visíveis só para admin, salvo liberação.</p>' : ""}${!adm ? '<p class="muted">Linhas anteriores à janela não entram neste extrato.</p>' : ""}<div style="overflow-x:auto"><table class="stk"><tr><th>Hora</th><th>Caixa</th><th>Tipo</th><th>Cliente</th><th>Motivo / nota</th><th>Usuário</th><th class="n">Valor</th></tr>
   ${EX.map(m => `<tr${m.estornado ? ' style="text-decoration:line-through;opacity:.6"' : ""}><td>${hm(m.created_at)}</td><td>${esc(m.caixa)}</td><td>${TL[m.tipo] || m.tipo}${m.estorno_de ? ` <small class="muted">(estorno #${m.estorno_de})</small>` : ""}</td><td>${esc((m.cliente || "").trim() || "—")}</td><td>${esc(m.motivo || "")}</td><td>${esc(m.handle || "")}</td><td class="n">${brl(m.valor_assinado)}${adm ? (m.estornado ? '<br><small class="muted noprint">Estornado</small>' : m.tipo !== "estorno" && !m.estorno_de ? `<br><button class="btn ghost emv noprint" data-m="${m.id}" style="margin:2px 0 0;padding:1px 8px;font-size:12px;color:#b91c1c">Estornar</button>` : "") : ""}</td></tr>`).join("") || '<tr><td colspan="7" class="muted">Sem movimentos.</td></tr>'}
   ${SA.map(c => { const v = EX.filter(m => m.caixa_id === c.caixa_id).reduce((a, m) => a + Number(m.valor_assinado), 0); return `<tr class="sep"><th colspan="6">${esc(c.nome)} — movimento do dia${(adm || c.saldo != null) && Number(c.saldo) < -0.001 ? ` · saldo ${caixaSaldoHtml(c.saldo)}` : ""}</th><th class="n">${brl(v)}</th></tr>`; }).join("")}
   <tr class="tot"><th colspan="6">TOTAL DO DIA</th><th class="n">${brl(tot)}</th></tr></table></div></div>`;
   document.querySelectorAll(".hxl").forEach(a => a.onclick = ev => { ev.preventDefault(); go("hxdia"); });
+  if (adm && $("#cxf-host")) mountCaixaFiltro($("#cxf-host"), { caixas: SA, especial: true, dia: d });
   document.querySelectorAll(".emv").forEach(b => b.onclick = () => estornarMovBox(EX.find(m => m.id === +b.dataset.m), () => viewCaixa(d)));
   $("#d").onchange = e => { const v = e.target.value; if (!adm && JAN.desde && v && v < JAN.desde) { toast("Fora da janela do financeiro"); viewCaixa(JAN.desde); return; } if (!adm && JAN.hoje && v > JAN.hoje) { viewCaixa(JAN.hoje); return; } viewCaixa(v); }; $("#pe").onclick = () => window.print();
   if ($("#fl-modo")) $("#fl-modo").onchange = () => { const dias = $("#fl-modo").value === "dias"; $("#fl-dias-box").hidden = !dias; $("#fl-desde-box").hidden = dias; };
@@ -2570,6 +2576,36 @@ async function exportCSV() {
 }
 // ---------- Resumo do dia por caixa (admin/financeiro; servidor confere em caixa_resumo) ----------
 const FORMAL = { dinheiro: "Dinheiro", pix: "PIX", cartao: "Cartão", transferencia: "Transferência", boleto: "Boleto", prazo: "Paga Depois" };
+// ---------- Filtro por período do caixa (somente admin) ----------
+/* Só admin. Lê v_caixa_extrato (e v_caixa_especial) por período com a RLS de sempre; filtra no navegador. Não grava nada. */
+const CXF = { caixa: "todos", preset: "5d", de: null, ate: null, tipo: "ambos", min: 0, ocultar: false };
+async function mountCaixaFiltro(host, o = {}) {
+  const F = globalThis.BAGDA_CAIXA_FILTRO;
+  if (!host || me.role !== "admin" || !F || !api.caixaExtratoPeriodo) { if (host) host.remove(); return; }
+  const f = { ...CXF }; if (o.fixo != null) f.caixa = String(o.fixo);
+  if (!f.de || !f.ate) Object.assign(f, F.presetRange(f.preset, today()));
+  const caixas = (o.caixas || []).map(c => ({ caixa_id: c.caixa_id, nome: c.nome, somente_admin: c.somente_admin }));
+  const titulo = o.fixo === "cxesp" ? "CAIXA ESPECIAL" : o.fixo != null ? ((caixas.find(c => String(c.caixa_id) === String(o.fixo)) || {}).nome || "caixa") : "";
+  host.innerHTML = `<h2>Filtro por período <small class="muted">(só admin${titulo ? " · " + esc(titulo) : ""})</small></h2><div id="cxf-c"></div><div id="cxf-r"><p class="muted">Carregando…</p></div>`;
+  let cache = { k: "", rows: [] };
+  const load = async () => { const esp = f.caixa === "cxesp" && o.especial !== false, k = (esp ? "e:" : "c:") + f.de + ":" + f.ate; if (cache.k === k) return cache.rows;
+    const rows = esp ? F.fromEspecial(await api.cxEspPeriodo(f.de, f.ate)) : await api.caixaExtratoPeriodo(f.de, f.ate); cache = { k, rows }; return rows; };
+  const draw = async () => { Object.assign(CXF, o.fixo != null ? { ...f, caixa: CXF.caixa } : f);
+    host.querySelector("#cxf-c").innerHTML = F.controlsHtml(f, { caixas, especial: o.especial !== false, fixo: o.fixo != null });
+    bind(); const r = host.querySelector("#cxf-r");
+    try { const rows = await load(); r.innerHTML = F.resultHtml(F.apply(rows, { ...f, caixa: f.caixa === "cxesp" ? null : f.caixa }), f, { fixo: o.fixo != null || f.caixa !== "todos" }); }
+    catch (e) { r.innerHTML = `<p class="warn">${esc(e.message || e)}</p>`; } };
+  const bind = () => { const q = s => host.querySelector(s), qa = s => host.querySelectorAll(s);
+    if (q("#cxf-caixa")) q("#cxf-caixa").onchange = e => { f.caixa = e.target.value; draw(); };
+    q("#cxf-de").onchange = e => { Object.assign(f, F.normRange(e.target.value, f.ate, today()), { preset: null }); draw(); };
+    q("#cxf-ate").onchange = e => { Object.assign(f, F.normRange(f.de, e.target.value, today()), { preset: null }); draw(); };
+    qa(".cxf-pre").forEach(b => b.onclick = () => { Object.assign(f, F.presetRange(b.dataset.v, today()), { preset: b.dataset.v }); draw(); });
+    qa(".cxf-tipo").forEach(b => b.onclick = () => { f.tipo = b.dataset.v; draw(); });
+    qa(".cxf-min").forEach(b => b.onclick = () => { f.min = +b.dataset.v || 0; draw(); });
+    q("#cxf-minv").onchange = e => { f.min = F.parseMin(e.target.value); draw(); };
+    q("#cxf-ocultar").onchange = e => { f.ocultar = e.target.checked; draw(); }; };
+  await draw();
+}
 async function viewResumo(d = today(), c = null, back = false) {
   if (me.role !== "admin" && me.role !== "financeiro") { app.innerHTML = '<div class="card"><h2>Sem acesso</h2><p class="muted">Somente admin e financeiro.</p></div>'; return; }
   let JAN = null; if (me.role !== "admin" && api.caixaFinJanela) { try { JAN = await api.caixaFinJanela(); } catch (e) { JAN = null; } }
@@ -2601,6 +2637,7 @@ async function viewResumo(d = today(), c = null, back = false) {
   ${R.movimentos.map(m => `<tr><td>${esc(m.hora)}</td><td>${TL[m.tipo] || esc(m.tipo)}</td><td>${esc(m.nota || "—")}</td><td>${esc((m.cliente || "").trim() || "—")}</td><td>${esc(vend(m))}</td><td>${esc(m.usuario || "")}</td><td>${esc(FORMAL[m.forma] || m.forma || "")}</td><td class="n">${brl(m.assinado)}</td></tr>`).join("") || '<tr><td colspan="8" class="muted">Sem movimentos.</td></tr>'}
   ${Object.entries(R.por_forma).map(([f, v]) => `<tr class="sep"><th colspan="7">Total ${esc(FORMAL[f] || f)}</th><th class="n">${brl(v)}</th></tr>`).join("")}
   <tr class="tot"><th colspan="7">${mostraSaldo ? "SALDO FINAL" : "MOVIMENTO DO DIA"}</th><th class="n">${mostraSaldo ? saldoTxt(fimR) : brl((R.movimentos || []).reduce((a, m) => a + Number(m.assinado), 0))}</th></tr></table></div>`;
+  if (me.role === "admin") { app.insertAdjacentHTML("beforeend", '<div class="card cxf" id="cxf-host"></div>'); mountCaixaFiltro($("#cxf-host"), { caixas: L, fixo: c, especial: false }); }
   $("#rd").onchange = e => viewResumo(e.target.value, c, back); $("#rc").onchange = e => viewResumo(d, +e.target.value, back); if ($("#bk")) $("#bk").onclick = () => go("caixa"); $("#pr").onclick = () => window.print();
   $("#csv").onclick = () => { const q = v => { let t = String(v ?? ""); if (/^[=+\-@]/.test(t) && !/^-?\d/.test(t)) t = "'" + t; return '"' + t.replace(/"/g, '""') + '"'; }, n = v => Number(v).toFixed(2).replace(".", ",");
     const rows = [["Caixa", R.caixa], ["Data", dd], ["Abertura", s ? n(s.abertura_valor) : ""], ["Saldo inicial", mostraSaldo && iniR != null ? n(iniR) : ""], [], ["Data/hora", "Tipo", "Nota", "Cliente", "Vendedor", "Lançada por", "Forma", "Valor", "Motivo"],
@@ -2624,6 +2661,7 @@ async function viewHxDia(d = today()) {
   <tr class="tot"><th colspan="6">TOTAL DO DIA</th><th class="n">${brl(R.total_dia)}</th></tr></table></div>
   ${C ? `<div class="card noprint"><h2>Configuração</h2><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="hxp" ${C.hx_fin_ve_passado ? "checked" : ""} style="width:auto"> Financeiro vê dias anteriores no Caixa HX</label>
   <p class="muted">Desligado (padrão): o financeiro vê só o dia de hoje no HX. Cada mudança fica registrada em Segurança.</p></div>` : ""}`;
+  { const LX = await api.caixasLista().catch(() => []), hx = R.caixa_id || (LX.find(x => /HX/.test(x.nome || "")) || {}).caixa_id; if (hx != null) { app.insertAdjacentHTML("beforeend", '<div class="card cxf" id="cxf-host"></div>'); mountCaixaFiltro($("#cxf-host"), { caixas: LX, fixo: hx, especial: false }); } }
   $("#hd").onchange = e => viewHxDia(e.target.value); $("#pr").onclick = () => window.print();
   if ($("#hxp")) $("#hxp").onchange = async e => { try { await api.hxConfigSet(e.target.checked); toast(e.target.checked ? "Financeiro agora vê dias anteriores do HX" : "Financeiro vê só hoje no HX"); } catch (x) { e.target.checked = !e.target.checked; toast(x.message); } };
 }
@@ -2644,6 +2682,7 @@ async function viewCxEsp() {
   <div class="card"><h2>Extrato</h2><table class="stk"><tr><th>Data/hora</th><th>Tipo</th><th>Motivo / destino</th><th>Cliente</th><th>Por</th><th class="n">Valor</th><th class="n">Saldo</th><th></th></tr>
   ${M.map(m => `<tr class="${m.estornado ? "exc" : ""}"><td>${esc(dh(m.created_at))}</td><td>${m.tipo === "entrada" ? "Entrada" : "Saída"}</td><td>${esc(m.motivo)}</td><td>${esc(m.cliente || "")}${m.credito_id ? ' <small class="muted">devolução de crédito</small>' : ""}</td><td>${esc(m.handle || "")}</td><td class="n ${m.tipo === "saida" ? "low" : ""}">${m.tipo === "saida" ? "−" : "+"}${brl(m.valor)}</td><td class="n">${caixaSaldoHtml(m.saldo_apos)}</td>
   <td>${m.estornado ? '<small class="muted">estornado</small>' : m.estorno_de ? '<small class="muted">estorno</small>' : `<button class="btn ghost estx" style="margin:0" data-i="${m.id}">Estornar</button>`}</td></tr>`).join("") || '<tr><td colspan="8" class="muted">Sem lançamentos. Comece com uma Entrada (saldo inicial).</td></tr>'}</table></div>`;
+  app.insertAdjacentHTML("beforeend", '<div class="card cxf" id="cxf-host"></div>'); mountCaixaFiltro($("#cxf-host"), { fixo: "cxesp", especial: true });
   const sync = () => { const s = $("#tp").value === "saida"; $("#dv").hidden = !s; if (!s) $("#c").value = ""; $("#hc").hidden = !$("#c").value; $("#lm").textContent = s ? "Motivo / para onde vai o dinheiro *" : "Observação"; };
   $("#tp").onchange = sync; $("#c").onchange = () => { const o = $("#c").selectedOptions[0]; if (o.value && !$("#v").value) $("#v").value = (+o.dataset.s).toFixed(2); sync(); }; sync();
   document.querySelectorAll(".estx").forEach(b => b.onclick = async () => { const k = M.find(x => x.id === +b.dataset.i);

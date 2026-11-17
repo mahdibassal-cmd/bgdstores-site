@@ -173,3 +173,27 @@ html[data-theme=dark] .dev-box .btn.danger{background:#8f1d1d;border-color:#8f1d
 .lsplit-row label{margin:0;font-size:12px;color:var(--dim);flex:0 1 130px}
 .lsplit-row select{flex:1;min-width:150px}
 html[data-theme=dark] .lsplit-row label{color:var(--dim)}
+/* Filtro por período do caixa (só admin) */
+.cxf-ctl{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.cxf-row{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+.cxf-row>div{min-width:0}.cxf-row input[type=date]{max-width:180px}
+.cxf-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cxf-lbl{font-size:13px;color:var(--dim);margin-right:4px}
+.btn.cxf-chip{margin:0;padding:5px 12px;font-size:13px;border-radius:999px}
+.btn.cxf-chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+#cxf-minv{max-width:170px;margin:0}
+.cxf-tog{display:flex;gap:8px;align-items:center;font-size:14px}.cxf-tog input{width:auto;margin:0}
+.cxf-kpis{margin:6px 0 12px}.cxf-ent{color:#15803d}.cxf-sai{color:#b91c1c}
+.cxf-tab tr.cxf-dia th{text-align:left}.cxf-tab tr.cxf-sub td{font-size:13px;color:var(--dim);border-bottom:2px solid var(--ln)}
+.cxf-tab td.c-v{white-space:nowrap}
+.cxf-estornado{text-decoration:line-through;opacity:.6}.cxf-desc{margin:0 0 4px}
+@media(max-width:720px){.cxf-row{flex-direction:column;align-items:stretch}.cxf-row input[type=date],#cxf-minv{max-width:none}
+  .cxf-tab,.cxf-tab tbody{display:block;width:100%}.cxf-tab tr.cxf-hd{display:none}
+  .cxf-tab tr{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--ln)}
+  .cxf-tab tr>td,.cxf-tab tr>th{display:block;border:0;padding:0}
+  .cxf-tab tr.cxf-dia th,.cxf-tab tr.cxf-sub td:first-child,.cxf-tab tr.tot th:first-child{flex:1 1 auto;text-align:left}
+  .cxf-tab td.c-h{order:1;color:var(--dim);font-size:13px}.cxf-tab td.c-cx{order:2;flex:1 1 auto;font-weight:600}.cxf-tab td.c-v{order:3;margin-left:auto;font-weight:700}
+  .cxf-tab td.c-mo{order:4;flex:1 1 100%}.cxf-tab td.c-tp,.cxf-tab td.c-us{order:5;font-size:12px;color:var(--dim)}.cxf-tab td.c-cl{display:none}}
+html[data-theme=dark] .btn.cxf-chip{background:#1d1a14;color:var(--ink);border-color:var(--ln)}
+html[data-theme=dark] .btn.cxf-chip.on{background:#d6b46a;color:#111;border-color:#d6b46a}
+html[data-theme=dark] .cxf-ent{color:#4ade80}html[data-theme=dark] .cxf-sai{color:#f87171}
