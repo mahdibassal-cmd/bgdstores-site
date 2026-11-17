@@ -336,6 +336,12 @@ if (!MOCK && !CONFIGURED) {
         throw new Error((oEsp || dEsp) ? "Transferir envolvendo a Caixa Especial ainda depende da atualização do banco (supabase-loja/migration-transferir-especial.sql). Nada foi lançado." : "Transferir entre caixas ainda depende da atualização do banco (supabase-loja/migration-transferir-caixa.sql). Nada foi lançado.");
       return ok(r);
     },
+    async criarCaixa(nome, somenteAdmin) {
+      const r = await sb.rpc("criar_caixa", { p_nome: nome, p_somente_admin: !!somenteAdmin });
+      if (r.error && /PGRST202|42883|criar_caixa|schema cache|does not exist/i.test((r.error.code || "") + " " + (r.error.message || "")))
+        throw new Error("Criar caixa ainda depende da atualização do banco (supabase-loja/migration-criar-caixa.sql). Nada foi criado.");
+      return ok(r);
+    },
     async estornarMov(mid, m, cn) { const r = await sb.rpc("estornar_movimento_caixa", { p_mov: mid, p_motivo: m, p_cancelar_nota: !!cn }); if (r.error && /PGRST202|42883|estornar_movimento_caixa/.test((r.error.code || "") + " " + (r.error.message || ""))) throw new Error("Estornar movimento de caixa ainda depende de uma atualização do banco — avise o admin."); return ok(r); },
     async caixaAbrir(c, v) { return ok(await sb.rpc("caixa_abrir", { p_caixa: c, p_valor: v })); },
     async caixaFechar(c, v) { return ok(await sb.rpc("caixa_fechar", { p_caixa: c, p_contado: v })); },
@@ -919,6 +925,15 @@ if (!MOCK && !CONFIGURED) {
       }
       return { estorno_id: nw.id, acao: o.tipo === "venda" ? (cn ? "nota_cancelada" : "nota_volta_a_lancar") : "manual" }; },
     async caixaLancar(m) { needCx(); if (!m.motivo || m.motivo.trim().length < 3) throw new Error("Informe o motivo"); mov(m.caixa_id, m.tipo, Number(m.valor), m.motivo, null, meU); },
+    async criarCaixa(nome, somenteAdmin) {
+      needCx(); if (role !== "admin") throw new Error("Somente admin pode criar caixa");
+      const n = String(nome || "").trim().replace(/\s+/g, " ");
+      if (n.length < 2 || n.length > 40) throw new Error("Nome do caixa: de 2 a 40 caracteres");
+      if (/hx|especial|special/i.test(n)) throw new Error("Nome reservado (HX / Caixa Especial)");
+      if (CX.some(c => c.nome.toLowerCase() === n.toLowerCase())) throw new Error("Já existe um caixa com esse nome");
+      const c = { caixa_id: Math.max(...CX.map(x => x.caixa_id)) + 1, nome: n, metodo: null, somente_admin: !!somenteAdmin, saldo_visivel_financeiro: false };
+      CX.push(c); return { id: c.caixa_id, nome: c.nome, somente_admin: c.somente_admin, saldo: 0 };
+    },
     async transferirCaixa(origem, destino, valor, motivo, esp) {
       needCx();
       const v = Math.round(Number(valor) * 100) / 100, mot = (motivo || "").trim();
@@ -2217,11 +2232,18 @@ async function viewCaixa(d = today()) {
     <div><label>Valor (R$)</label><input id="lv" type="number" min="0.01" step="0.01" required></div></div>
     <label>Motivo (obrigatório)</label><input id="lm" minlength="3" maxlength="300" required><button class="btn">Lançar</button></form></div>
     <div class="card noprint"><h2>Transferir entre caixas</h2><form id="tf"><div class="grid">
-    <div><label>De</label><select id="tde">${SA.filter(c => !c.somente_admin).map(c => `<option value="${c.caixa_id}" ${c.caixa_id === 1 ? "selected" : ""}>${esc(c.nome)}</option>`).join("")}${adm ? `<option value="cxesp">CAIXA ESPECIAL</option>` : ""}</select></div>
+    <div><label>De</label><select id="tde">${SA.filter(c => adm || !c.somente_admin).map(c => `<option value="${c.caixa_id}" ${c.caixa_id === 1 ? "selected" : ""}>${esc(c.nome)}${c.somente_admin ? " (só admin)" : ""}</option>`).join("")}${adm ? `<option value="cxesp">CAIXA ESPECIAL</option>` : ""}</select></div>
     <div><label>Para</label><select id="tpa">${SA.map(c => `<option value="${c.caixa_id}" ${c.caixa_id === (adm && SA.some(x => x.caixa_id === 18) ? 18 : 12) ? "selected" : ""}>${esc(c.nome)}${c.somente_admin ? " (só admin)" : ""}</option>`).join("")}${adm ? `<option value="cxesp">CAIXA ESPECIAL</option>` : ""}</select></div>
     <div><label>Valor (R$)</label><input id="tv" type="number" min="0.01" step="0.01" required></div></div>
-    <label>Motivo (obrigatório)</label><input id="tm" minlength="3" maxlength="300" required placeholder="Ex.: abater dívida de COMPRA PRODUTOS">${adm ? `<p class="muted">Como admin, <b>Para</b> inclui os caixas só admin (COMPRA PRODUTOS, PAGAMENTO PRODUTOS). Transferir de Caixa Dinheiro, CAIXA S2 ou PRESTIGE ROSA para COMPRA PRODUTOS abate a dívida. O financeiro não vê esses caixas. A Caixa Especial (ledger separado) continua só aqui para admin.</p>` : ""}<button class="btn">Transferir</button></form></div>
+    <label>Motivo (obrigatório)</label><input id="tm" minlength="3" maxlength="300" required placeholder="Ex.: abater dívida de COMPRA PRODUTOS">${adm ? `<p class="muted">Como admin, <b>De</b> e <b>Para</b> incluem todos os caixas, também os só admin (COMPRA PRODUTOS, PAGAMENTO PRODUTOS, NJ BRASIL, BITLOG CONTAINER). Transferir de Caixa Dinheiro, CAIXA S2 ou PRESTIGE ROSA para COMPRA PRODUTOS abate a dívida. O financeiro não vê os caixas só admin. A Caixa Especial (ledger separado) continua só aqui para admin.</p>` : ""}<button class="btn">Transferir</button></form></div>
   </div>` : ""}
+  ${adm ? `<div class="card noprint" id="cx-criar"><h2>Criar caixa</h2>
+  <p class="muted">Cria um caixa novo com saldo inicial R$ 0,00. Só admin cria. "Só admin" some do financeiro e dos vendedores; "Visível ao financeiro" aparece para o financeiro (sem saldo acumulado).</p>
+  <form id="cxc"><div class="grid">
+  <div><label for="cxc-nome">Nome do caixa</label><input id="cxc-nome" minlength="2" maxlength="40" required placeholder="Ex.: NJ EUROPA"></div>
+  <div><label for="cxc-vis">Visibilidade</label><select id="cxc-vis"><option value="admin">Só admin</option><option value="fin">Visível ao financeiro</option></select></div>
+  <div><label>Saldo inicial</label><input value="R$ 0,00" disabled></div></div>
+  <button class="btn" id="cxc-ok">Criar caixa</button></form></div>` : ""}
   ${adm ? `<div class="card noprint" id="fin-lib"><h2>Liberar histórico para Financeiro</h2>
   <p class="muted">Padrão: últimos 3 dias, só nos caixas que o financeiro já pode ver. A liberação alarga essa janela (data inicial ou número de dias, um caixa ou todos, validade opcional). Revogar volta ao padrão na hora. O saldo acumulado continua só com o admin.</p>
   <form id="flf"><div class="grid">
@@ -2253,6 +2275,11 @@ async function viewCaixa(d = today()) {
     try { const dif = await api.caixaFechar(+b.dataset.c, +v); toast(`Caixa fechado · diferença ${brl(dif)}`); viewCaixa(d); } catch (e) { toast(e.message); } });
   if ($("#lf")) $("#lf").onsubmit = async ev => { ev.preventDefault(); const m = $("#lm").value.trim(); if (m.length < 3) return toast("Informe o motivo");
     try { await api.caixaLancar({ caixa_id: +$("#lc").value, tipo: $("#lt").value, valor: +$("#lv").value, motivo: m }); toast("Lançado ✓"); viewCaixa(d); } catch (e) { toast(e.message); } };
+  if ($("#cxc")) $("#cxc").onsubmit = async ev => { ev.preventDefault(); const nome = $("#cxc-nome").value.trim().replace(/\s+/g, " "), so = $("#cxc-vis").value !== "fin";
+    if (nome.length < 2) return toast("Informe o nome do caixa");
+    if (!(await confirmBox(`Criar o caixa <b>${esc(nome)}</b> (${so ? "só admin" : "visível ao financeiro"}) com saldo R$ 0,00?`))) return;
+    const b = $("#cxc-ok"); b.disabled = true;
+    try { await api.criarCaixa(nome, so); toast("Caixa criado ✓"); viewCaixa(d); } catch (e) { toast(e.message); b.disabled = false; } };
   if ($("#tf")) $("#tf").onsubmit = async ev => { ev.preventDefault(); const deRaw = $("#tde").value, paRaw = $("#tpa").value, oEsp = deRaw === "cxesp", dEsp = paRaw === "cxesp", de = oEsp ? null : +deRaw, pa = dEsp ? null : +paRaw, vv = Math.round(+$("#tv").value * 100) / 100, m = $("#tm").value.trim();
     if ((oEsp && dEsp) || (!oEsp && !dEsp && de === pa)) return toast("Escolha caixas diferentes"); if ((oEsp || dEsp) && !adm) return toast("Somente admin pode transferir envolvendo a Caixa Especial"); if (!(vv > 0)) return toast("Informe um valor maior que zero"); if (m.length < 3) return toast("Informe o motivo");
     const nDe = oEsp ? "CAIXA ESPECIAL" : ((SA.find(c => c.caixa_id === de) || {}).nome || de), nPa = dEsp ? "CAIXA ESPECIAL" : ((SA.find(c => c.caixa_id === pa) || {}).nome || pa);
