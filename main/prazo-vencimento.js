@@ -43,6 +43,7 @@
       if (!(aberto > 0.001)) continue;
       if (!n.cliente_id) continue;
       const c = cliOf(n.cliente_id);
+      if (c.confiavel) continue; /* cliente confiável: prazo 30 dias é normal, fora de Vencimentos e alertas */
       const id = +n.cliente_id;
       if (!byCli.has(id)) {
         byCli.set(id, {
@@ -109,6 +110,8 @@
       .cobranca-panel .badge.vence_hoje{background:#ffedd5;color:#9a3412}
       .cobranca-panel .badge.vence_breve{background:#fef3c7;color:#92400e}
       .cobranca-panel .badge.limite{background:#e0e7ff;color:#3730a3}
+      .badge.conf{display:inline-block;margin-top:2px;padding:1px 7px;border-radius:10px;background:#dcfce7;color:#166534;font-size:.72rem;font-weight:600}
+      html[data-theme=dark] .badge.conf{background:#14532d;color:#bbf7d0}
       .cobranca-panel tr.vencida td:first-child{box-shadow:inset 3px 0 0 #b91c1c}
       html[data-theme=dark] .nav-alert{background:#ef4444;color:#fff}
       html[data-theme=dark] .cobranca-panel .badge.vencida{background:#7f1d1d;color:#fecaca}
