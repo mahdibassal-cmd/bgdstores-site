@@ -197,3 +197,15 @@ html[data-theme=dark] .lsplit-row label{color:var(--dim)}
 html[data-theme=dark] .btn.cxf-chip{background:#1d1a14;color:var(--ink);border-color:var(--ln)}
 html[data-theme=dark] .btn.cxf-chip.on{background:#d6b46a;color:#111;border-color:#d6b46a}
 html[data-theme=dark] .cxf-ent{color:#4ade80}html[data-theme=dark] .cxf-sai{color:#f87171}
+
+/* Saved-row highlight: readable on dark theme (do not use light #e6f6ea + pale text) */
+tr.saved-row{background:rgba(26,127,55,.14);box-shadow:inset 4px 0 0 #1a7f37}
+html[data-theme=dark] tr.saved-row{background:rgba(61,214,140,.18);box-shadow:inset 4px 0 0 #3dd68c}
+.ok-msg{color:#1a7f37;font-weight:700}html[data-theme=dark] .ok-msg{color:#7fd39a}
+td.n,th.n{white-space:nowrap}
+.tbl-wrap{overflow-x:auto;max-width:100%}
+th.n-usd,td.n-usd{min-width:9.5rem}
+@page brascol-a4{size:A4 portrait;margin:12mm}
+html.a4 .cpa4{page:brascol-a4}
+.cpa4 .priv{margin:8px 0 0;font-size:12px;font-weight:800;letter-spacing:.08em;color:#b91c1c;text-align:center;border:2px solid #b91c1c;padding:4px 8px}
+@media print{html.a4,html.a4 body{background:#fff!important}.cpa4 .priv{color:#b91c1c!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
